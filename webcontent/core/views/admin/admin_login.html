@@ -1,0 +1,47 @@
+{% extends "admin/admin_base.html" %}
+
+{% block title %}StockTrenz | Admin Login{% endblock %}
+
+{% block content %}
+<div align="center"><img src="/static/img/ST-960x227.png" class="logo_top_middle" alt="StockTrenz"></div>
+<p align="center" style="font-style: italic;font-size: 18px;">"The easiest way to make money is to know the trend"</p>
+<br>
+<div class="div_border form_normal_padding">
+    <h2 align="center" style="margin-top: 10px;">Admin Portal Login</h2>
+    <br>
+    <div style="text-align: center">
+        <form method="POST" action="{% url admin_login %}" id="login_form" class="form-horizontal">
+            {% csrf_token %}
+            <fieldset>
+                <div class="control-group" align="center" style="margin-bottom: 0px;">
+                    <div class="middle_form_width" style="text-align:  left">
+                        <ul class="errorlist">
+                            <li>{{ errors }}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="control-group" align="center">
+                    <div class="middle_form_width" style="text-align:  left">
+                        {{ form.username }}
+                        {{ form.username.errors }}
+                    </div>
+                </div>
+                <div class="control-group" align="center">
+                    <div class="middle_form_width" style="text-align:  left">
+                        {{ form.password }}
+                        {{ form.password.errors }}
+                    </div>
+                </div>
+                <div class="control-group" align="center">
+                    <div class="middle_form_width" style="text-align:  left">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<hr>
+
+{% endblock %}

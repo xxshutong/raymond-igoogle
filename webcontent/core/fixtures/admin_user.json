@@ -1,0 +1,17 @@
+[ { "fields" : { "date_joined" : "2012-03-13 18:46:40",
+        "email" : "admin@stocktrenz.com",
+        "first_name" : "",
+        "groups" : [],
+        "is_active" : true,
+        "is_staff" : true,
+        "is_superuser" : true,
+        "last_login" : "2010-03-13 18:52:28",
+        "last_name" : "",
+        "password" : "sha1$2b70a$d0c5af89c56b27eec1bfc089f7565a543fb8559d",
+        "user_permissions" : [],
+        "username" : "admin"
+    },
+        "model" : "auth.user",
+        "pk" : 1
+    }
+]

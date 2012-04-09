@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+
+    <![endif]-->
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+        span.emptyhint {color:#999;position:absolute;padding:3px;}
+    </style>
+    <!-- Le styles -->
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/static/css/custom.css" rel="stylesheet">
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+
+    <script src="/static/js/jquery.js"></script>
+    <!--<script src="/static/js/bootstrap-modal.js"></script>
+    <script src="/static/js/bootstrap-tab.js"></script>
+    <script src="/static/js/bootstrap-alert.js"></script>
+    <script src="/static/js/bootstrap-transition.js"></script>-->
+
+    {% block extrastyle %}{% endblock %}
+</head>
+
+<body>
+{% block navbar%}{% endblock%}
+
+<div id="content" class="container">
+
+    {% block sidebar %}{% endblock %}
+
+    {% block content %}{% endblock %}
+
+    {% block footer %}
+    <footer>
+        <p>&copy; StockTrenz 2012</p>
+    </footer>
+    {% endblock %}
+</div>
+
+</body>
+<script>
+
+    function initPlaceHolders(){
+        if('placeholder' in document.createElement('input')){ //
+            return ;
+        }
+        function target (e){
+            var e=e||window.event;
+            return e.target||e.srcElement;
+        };
+        function _getEmptyHintEl(el){
+            var hintEl=el.hintEl;
+            return hintEl && g(hintEl);
+        };
+        function blurFn(e){
+            var el=target(e);
+            if(!el || el.tagName !='INPUT' && el.tagName !='TEXTAREA') return;//
+            var    emptyHintEl=el.__emptyHintEl;
+            if(emptyHintEl){
+                //clearTimeout(el.__placeholderTimer||0);
+                //el.__placeholderTimer=setTimeout(function(){//
+                if(el.value) emptyHintEl.style.display='none';
+                else emptyHintEl.style.display='';
+                //},600);
+            }
+        };
+        function focusFn(e){
+            var el=target(e);
+            if(!el || el.tagName !='INPUT' && el.tagName !='TEXTAREA') return;//IE
+            var emptyHintEl=el.__emptyHintEl;
+            if(emptyHintEl){
+                //clearTimeout(el.__placeholderTimer||0);
+                emptyHintEl.style.display='none';
+            }
+        };
+        if(document.addEventListener){//ie
+            document.addEventListener('focus',focusFn, true);
+            document.addEventListener('blur', blurFn, true);
+        }
+        else{
+            document.attachEvent('onfocusin',focusFn);
+            document.attachEvent('onfocusout',blurFn);
+        }
+
+        var elss=[document.getElementsByTagName('input'),document.getElementsByTagName('textarea')];
+        for(var n=0;n<2;n++){
+            var els=elss[n];
+            for(var i =0;i<els.length;i++){
+                var el=els[i];
+                var placeholder=el.getAttribute('placeholder'),
+                        emptyHintEl=el.__emptyHintEl;
+                if(placeholder && !emptyHintEl){
+                    emptyHintEl=document.createElement('span');
+                    emptyHintEl.innerHTML=placeholder;
+                    emptyHintEl.className='emptyhint';
+                    emptyHintEl.onclick=function (el){return function(){try{el.focus();}catch(ex){}}}(el);
+                    if(el.value) emptyHintEl.style.display='none';
+                    el.parentNode.insertBefore(emptyHintEl,el);
+                    el.__emptyHintEl=emptyHintEl;
+                }
+            }
+        }
+    }
+
+    initPlaceHolders();
+
+</script>
+</html>

@@ -1,0 +1,66 @@
+.div_border {
+    border: 1px rgba(0, 0, 0, 0.15) solid;
+}
+
+body, p {
+    font-size: 13px;
+}
+
+.form_normal_padding {
+    padding-top: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+}
+
+.logo_top_middle {
+    width: 320px;
+    height: 75px;
+}
+
+ul.errorlist {
+    font-style: italic;
+    list-style:none;
+    margin: 0 0 9px 0px;
+    color: red;
+}
+
+ul.successlist {
+    font-style: italic;
+    list-style:none;
+    margin: 0 0 9px 0px;
+    color: #51A351;
+}
+
+ul.warninglist {
+    font-style: italic;
+    list-style:none;
+    margin: 0 0 9px 0px;
+    color: #F89406;
+}
+
+.middle_form_width {
+    width: 300px;
+}
+
+.large_form_width {
+    width: 350px;
+}
+
+.button_pad_left {
+    padding-left: 20px;
+}
+
+.fieldset_list {
+    border: 1px rgba(0, 0, 0, 0.15) solid;
+    padding: 10px;
+}
+
+.remove_icon {
+    width: 16px;
+    height: 16px;
+}
+
+.text_align_left {
+    text-align: left;
+}

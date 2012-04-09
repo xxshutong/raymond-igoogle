@@ -1,0 +1,36 @@
+{% extends "admin/admin_base.html" %}
+
+{% block title %}StockTrenz{% endblock %}
+
+{% block navbar%}
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="{% url admin_dashboard %}">StockTrenz Admin Portal</a>
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                    {% if user.is_staff and user.is_active %}
+                        <li>
+                            <a href="">
+                                {% block welcome %}
+                                Hello,
+                                <strong>{% filter force_escape %}{{ user.username }}{% endfilter %}</strong>.
+                                {% endblock %}
+                            </a>
+                        </li>
+                        <li><a href="{% url admin_logout %}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url admin_login %}">Login</a></li>
+                    {% endif %}
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </div>
+</div>
+
+{% endblock%}

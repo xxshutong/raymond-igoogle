@@ -1,0 +1,31 @@
+{% extends "base_web.html" %}
+
+{% block title %}StockTrenz | User/Author Register{% endblock %}
+
+{% block content %}
+    <div align="center"><img src="/static/img/ST-960x227.png" class="logo_top_middle" alt="StockTrenz"></div>
+    <p align="center" style="font-style: italic;font-size: 18px;">"The easiest way to make money is to know the trend"</p>
+    <br>
+    <div class="div_border" align="center" style="padding-left: 20px; padding-right: 20px;">
+        {% if is_author %}
+            <h2 align="center" style="margin-top: 10px;">New Author Signup Success!</h2>
+        {% else %}
+            <h2 align="center" style="margin-top: 10px;">New User Signup Success!</h2>
+        {% endif %}
+        <br>
+        {% if is_author %}
+        <p align="center" class="size_normal">Thank you for signing up to be our contributing Author. You shall receive en email at {{email }} shortly, Please follow instructions on the email to verify your identity.</p>
+        {% else %}
+        <p align="center" class="size_normal">Thank you for signing up for StockTrenz membership. You shall receive en email at {{email }} shortly, Please follow instructions on the email to verify your identity.</p>
+        {% endif %}
+        <br>
+        <br>
+        <a href="/" class="btn btn-large btn-primary">Back to Homepage</a>
+        <br>
+        <br>
+        <br>
+    </div>
+
+<hr>
+
+{% endblock %}

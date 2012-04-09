@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}StockTrenz{% endblock %}
+
+{% block navbar%}
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="{% url dashboard %}">StockTrenz</a>
+                    <div class="nav-collapse">
+                        <ul class="nav">
+                            {% if user.is_active %}
+                                <li>
+                                    <a href="">
+                                        {% block welcome %}
+                                        Hello,
+                                        <strong>{% filter force_escape %}{{ user.get_profile.handle }}{% endfilter %}</strong>.
+                                        {% endblock %}
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if user.is_active and not user.is_staff %}
+                                <li {% if active_menu == "publish_report" %} class="active" {% endif %}><a href="#">My Cart</a></li>
+                            {% endif %}
+
+
+                        </ul>
+                        <ul class="nav pull-right">
+                            {% if user.is_active %}
+                                {% if not user.is_staff %}
+                                    <li {% if active_menu == "publish_report" %} class="active" {% endif %}><a href="#">Publish Report</a></li>
+                                    <li {% if active_menu == "email_settings" %} class="active" {% endif %}><a href="{% url email_settings %}">Email Settings</a></li>
+                                    <li {% if active_menu == "account_settings" %} class="active" {% endif %}><a href="{% url account_settings %}">Account Settings</a></li>
+                                    <li {% if active_menu == "history" %} class="active" {% endif %}><a href="#">History</a></li>
+                                    <li {% if active_menu == "Search Reports" %} class="active" {% endif %}><a href="#">Search Reports</a></li>
+                                {% endif %}
+                                <li><a href="{% url logout %}">Logout</a></li>
+                            {% else %}
+                                <li><a href="{% url register_user %}">Free Signup</a></li>
+                                <li><a href="{% url login %}">Login</a></li>
+                            {% endif %}
+                        </ul>
+                    </div><!--/.nav-collapse -->
+                </div>
+            </div>
+        </div>
+
+{% endblock%}
