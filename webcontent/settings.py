@@ -121,7 +121,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
@@ -138,13 +138,6 @@ EMAIL_HOST_PASSWORD = os.environ.get("SENDGRID_PASSWORD", 'x+zr0cks')
 
 # Default commission
 DEFAULT_COMMISSION = 50
-
-# Content update
-PAGE_TYPE = (
-    (0, '/home'),
-    (1, '/member/dashboard'),
-    (2, '/member/history')
-)
 
 # Limit session expire time to 90 minutes
 SESSION_COOKIE_AGE = 5400

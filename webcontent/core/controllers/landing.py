@@ -1,16 +1,11 @@
-import datetime
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import User
-from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render_to_response, redirect
 from django.template.context import RequestContext
-import logging
 from webcontent import settings
-from webcontent.core import models, utils
-from webcontent.core.forms.forms import RegisterUserForm, RegisterAuthorForm, LoginForm
+from webcontent.core import utils
+from webcontent.core.forms.forms import RegisterUserForm, LoginForm
 from django.contrib.auth import login as djlogin
 from django.contrib.auth import logout as djlogout
-from webcontent.settings import SITE_DOMAIN, REQUIRE_ENCRYPTED_REQUESTS
 
 DASHBOARD_PAGE = 'dashboard.html'
 LOGIN_PAGE = 'login.html'
@@ -89,7 +84,6 @@ def register_user(request):
         form = RegisterUserForm(request.POST)
         if form.is_valid():
             user = form.save(**form.cleaned_data)
-            is_success = send_active_email(user)
             return render_to_response(REGISTER_SUCCESS_PAGE, {},
                 RequestContext(request,
                         {
@@ -105,79 +99,3 @@ def register_user(request):
             }),
     )
 
-def register_author(request):
-    """
-    Author Registration
-    """
-    if request.method == 'GET':
-        form = RegisterAuthorForm()
-    else:
-        form = RegisterAuthorForm(request.POST)
-        if form.is_valid():
-            user = form.save(**form.cleaned_data)
-            is_success = send_active_email(user)
-            return render_to_response(REGISTER_SUCCESS_PAGE, {},
-                RequestContext(request,
-                        {
-                        'is_author':True,
-                        'email': user.email,
-                        'is_success': is_success
-                    }),
-            )
-    return render_to_response(REGISTER_AUTHOR_PAGE, {},
-        RequestContext(request,
-                {
-                'form':form
-            }),
-    )
-
-def register_verify(request, user_id=None, token=None):
-    form = LoginForm()
-    if user_id and token:
-        try:
-            active_token = models.ActiveToken.objects.filter(user__id=user_id).latest('created_at')
-            if active_token and active_token.token == token:
-                now = datetime.datetime.now()
-                timedelta = now.date() - active_token.created_at.date()
-                active_token.delete()
-                user = User.objects.get(id=user_id)
-                if user:
-                    if timedelta.days < settings.EMAIL_EXPIRE_TIME:
-                        user.is_active = True
-                        user.save()
-                        return render_to_response(LOGIN_PAGE, {}, RequestContext(request,
-                                    {
-                                    'info': 'success',
-                                    'form': form
-                                }
-                            )
-                        )
-                    else:
-                        is_success = send_active_email(user)
-                        return render_to_response(LOGIN_PAGE, {}, RequestContext(request,
-                                    {
-                                    'info': 'resend',
-                                    'form': form,
-                                    'email_again': is_success
-                                }
-                            )
-                        )
-        except ObjectDoesNotExist:
-            logging.error('DoesNotExist: Member matching query does not exist.')
-    return render_to_response('404.html', {}, RequestContext(request, {}))
-
-
-
-
-
-def send_active_email(user):
-    """
-    Send email for active account
-    """
-    token = utils.generate_valid_string()
-    now = datetime.datetime.now()
-    active_token = models.ActiveToken(user=user, token=token, created_at=now, updated_at=now)
-    active_token.save()
-
-    url = "%s%s/verify/member/%s/%s/" % ('https://' if REQUIRE_ENCRYPTED_REQUESTS else 'http://', SITE_DOMAIN, user.id, token)
-    return utils.send_email((utils.register_mail_template % (url, url, settings.EMAIL_EXPIRE_TIME) ), user.email, u'Welcome to StockTrenz')

@@ -8,189 +8,90 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         
-        # Adding model 'Member'
-        db.create_table('core_member', (
+        # Adding model 'UserProfile'
+        db.create_table('core_userprofile', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('updated_at', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
             ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True, null=True, blank=True)),
-            ('handle', self.gf('django.db.models.fields.CharField')(unique=True, max_length=200)),
             ('type', self.gf('django.db.models.fields.IntegerField')(default=0)),
-            ('is_auth_active', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('paypal', self.gf('django.db.models.fields.CharField')(max_length=50, unique=True, null=True, blank=True)),
-            ('gst_hst', self.gf('django.db.models.fields.CharField')(max_length=50, unique=True, null=True, blank=True)),
-            ('money', self.gf('django.db.models.fields.DecimalField')(default=0.0, max_digits=10, decimal_places=2)),
-            ('commission', self.gf('django.db.models.fields.IntegerField')()),
-            ('e_authors', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('e_new_report', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('e_none', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
-        db.send_create_signal('core', ['Member'])
+        db.send_create_signal('core', ['UserProfile'])
 
-        # Adding model 'Tag'
-        db.create_table('core_tag', (
+        # Adding model 'Gadgets'
+        db.create_table('core_gadgets', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('updated_at', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
             ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('name', self.gf('django.db.models.fields.CharField')(unique=True, max_length=30)),
+            ('type', self.gf('django.db.models.fields.CharField')(max_length=50)),
         ))
-        db.send_create_signal('core', ['Tag'])
+        db.send_create_signal('core', ['Gadgets'])
 
-        # Adding model 'FavouriteAuthor'
-        db.create_table('core_favouriteauthor', (
+        # Adding model 'GadgetsDetail'
+        db.create_table('core_gadgetsdetail', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('updated_at', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
             ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('member', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Member'])),
-            ('author', self.gf('django.db.models.fields.related.ForeignKey')(related_name='+', to=orm['core.Member'])),
+            ('gadget', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Gadgets'])),
+            ('username', self.gf('django.db.models.fields.CharField')(max_length=50)),
+            ('password', self.gf('django.db.models.fields.CharField')(max_length=100)),
         ))
-        db.send_create_signal('core', ['FavouriteAuthor'])
+        db.send_create_signal('core', ['GadgetsDetail'])
 
-        # Adding model 'Report'
-        db.create_table('core_report', (
+        # Adding model 'Library'
+        db.create_table('core_library', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('updated_at', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
             ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('author', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Member'])),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=500)),
-            ('description', self.gf('django.db.models.fields.CharField')(max_length=250, null=True, blank=True)),
-            ('word_count', self.gf('django.db.models.fields.IntegerField')()),
-            ('page_count', self.gf('django.db.models.fields.IntegerField')()),
-            ('chart_count', self.gf('django.db.models.fields.IntegerField')()),
-            ('price_type', self.gf('django.db.models.fields.IntegerField')()),
-            ('price', self.gf('django.db.models.fields.IntegerField')(default=0)),
-            ('day_rang', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
-            ('publish_time', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2012, 3, 30, 2, 42, 59, 336553))),
-            ('price_update_time', self.gf('django.db.models.fields.DateTimeField')()),
-            ('is_hide', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('type', self.gf('django.db.models.fields.CharField')(max_length=50)),
+            ('gadget', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Gadgets'])),
         ))
-        db.send_create_signal('core', ['Report'])
+        db.send_create_signal('core', ['Library'])
 
-        # Adding model 'ReportTagR'
-        db.create_table('core_reporttagr', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('report', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Report'])),
-            ('tag', self.gf('django.db.models.fields.related.ForeignKey')(related_name='+', to=orm['core.Tag'])),
-        ))
-        db.send_create_signal('core', ['ReportTagR'])
-
-        # Adding model 'MyCart'
-        db.create_table('core_mycart', (
+        # Adding model 'Tab'
+        db.create_table('core_tab', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('updated_at', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
             ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('member', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Member'])),
-            ('report', self.gf('django.db.models.fields.related.ForeignKey')(related_name='+', to=orm['core.Report'])),
+            ('user_profile', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=30)),
+            ('order', self.gf('django.db.models.fields.IntegerField')()),
         ))
-        db.send_create_signal('core', ['MyCart'])
+        db.send_create_signal('core', ['Tab'])
 
-        # Adding model 'SearchFilter'
-        db.create_table('core_searchfilter', (
+        # Adding model 'TabGadgetsR'
+        db.create_table('core_tabgadgetsr', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('updated_at', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
             ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('filter_name', self.gf('django.db.models.fields.CharField')(max_length=30, null=True, blank=True)),
-            ('member', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Member'])),
-            ('author', self.gf('django.db.models.fields.CharField')(max_length=30, null=True, blank=True)),
-            ('report_title', self.gf('django.db.models.fields.CharField')(max_length=100, null=True, blank=True)),
-            ('tags', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
-            ('publish_from', self.gf('django.db.models.fields.DateField')()),
-            ('publish_to', self.gf('django.db.models.fields.DateField')()),
-            ('is_paid', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('paid_from', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
-            ('paid_to', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
-            ('is_free', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('tab', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Tab'])),
+            ('gadgets_detail', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.GadgetsDetail'])),
+            ('column', self.gf('django.db.models.fields.IntegerField')()),
+            ('row', self.gf('django.db.models.fields.IntegerField')()),
         ))
-        db.send_create_signal('core', ['SearchFilter'])
-
-        # Adding model 'TaxSetting'
-        db.create_table('core_taxsetting', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('updated_at', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-            ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('alberta', self.gf('django.db.models.fields.IntegerField')()),
-            ('british_columbia', self.gf('django.db.models.fields.IntegerField')()),
-            ('manitoba', self.gf('django.db.models.fields.IntegerField')()),
-            ('new_brunswick', self.gf('django.db.models.fields.IntegerField')()),
-            ('newfoundland_labrador', self.gf('django.db.models.fields.IntegerField')()),
-            ('northwest_territories', self.gf('django.db.models.fields.IntegerField')()),
-            ('nova_scotia', self.gf('django.db.models.fields.IntegerField')()),
-            ('nunavut', self.gf('django.db.models.fields.IntegerField')()),
-            ('ontario', self.gf('django.db.models.fields.IntegerField')()),
-            ('price_edward_island', self.gf('django.db.models.fields.IntegerField')()),
-            ('saskatchewan', self.gf('django.db.models.fields.IntegerField')()),
-            ('quebec', self.gf('django.db.models.fields.IntegerField')()),
-        ))
-        db.send_create_signal('core', ['TaxSetting'])
-
-        # Adding model 'BottomContent'
-        db.create_table('core_bottomcontent', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('updated_at', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-            ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('type', self.gf('django.db.models.fields.IntegerField')()),
-            ('content', self.gf('django.db.models.fields.CharField')(max_length=3000)),
-        ))
-        db.send_create_signal('core', ['BottomContent'])
-
-        # Adding model 'Configuration'
-        db.create_table('core_configuration', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('updated_at', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-            ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('footer', self.gf('django.db.models.fields.CharField')(max_length=3000)),
-        ))
-        db.send_create_signal('core', ['Configuration'])
-
-        # Adding model 'HistoryTransaction'
-        db.create_table('core_historytransaction', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('updated_at', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-            ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('member', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Member'])),
-            ('report', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Report'])),
-            ('is_free', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('is_paid', self.gf('django.db.models.fields.BooleanField')(default=True)),
-            ('price', self.gf('django.db.models.fields.DecimalField')(default=0.0, max_digits=10, decimal_places=2)),
-            ('download_url', self.gf('django.db.models.fields.URLField')(max_length=200, null=True, blank=True)),
-        ))
-        db.send_create_signal('core', ['HistoryTransaction'])
+        db.send_create_signal('core', ['TabGadgetsR'])
 
 
     def backwards(self, orm):
         
-        # Deleting model 'Member'
-        db.delete_table('core_member')
+        # Deleting model 'UserProfile'
+        db.delete_table('core_userprofile')
 
-        # Deleting model 'Tag'
-        db.delete_table('core_tag')
+        # Deleting model 'Gadgets'
+        db.delete_table('core_gadgets')
 
-        # Deleting model 'FavouriteAuthor'
-        db.delete_table('core_favouriteauthor')
+        # Deleting model 'GadgetsDetail'
+        db.delete_table('core_gadgetsdetail')
 
-        # Deleting model 'Report'
-        db.delete_table('core_report')
+        # Deleting model 'Library'
+        db.delete_table('core_library')
 
-        # Deleting model 'ReportTagR'
-        db.delete_table('core_reporttagr')
+        # Deleting model 'Tab'
+        db.delete_table('core_tab')
 
-        # Deleting model 'MyCart'
-        db.delete_table('core_mycart')
-
-        # Deleting model 'SearchFilter'
-        db.delete_table('core_searchfilter')
-
-        # Deleting model 'TaxSetting'
-        db.delete_table('core_taxsetting')
-
-        # Deleting model 'BottomContent'
-        db.delete_table('core_bottomcontent')
-
-        # Deleting model 'Configuration'
-        db.delete_table('core_configuration')
-
-        # Deleting model 'HistoryTransaction'
-        db.delete_table('core_historytransaction')
+        # Deleting model 'TabGadgetsR'
+        db.delete_table('core_tabgadgetsr')
 
 
     models = {
@@ -230,131 +131,57 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
-        'core.bottomcontent': {
-            'Meta': {'object_name': 'BottomContent'},
-            'content': ('django.db.models.fields.CharField', [], {'max_length': '3000'}),
-            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'type': ('django.db.models.fields.IntegerField', [], {}),
-            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
-        },
-        'core.configuration': {
-            'Meta': {'object_name': 'Configuration'},
-            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'footer': ('django.db.models.fields.CharField', [], {'max_length': '3000'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
-        },
-        'core.favouriteauthor': {
-            'Meta': {'object_name': 'FavouriteAuthor'},
-            'author': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'+'", 'to': "orm['core.Member']"}),
-            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'member': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core.Member']"}),
-            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
-        },
-        'core.historytransaction': {
-            'Meta': {'object_name': 'HistoryTransaction'},
-            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'download_url': ('django.db.models.fields.URLField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_free': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'is_paid': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'member': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core.Member']"}),
-            'price': ('django.db.models.fields.DecimalField', [], {'default': '0.0', 'max_digits': '10', 'decimal_places': '2'}),
-            'report': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core.Report']"}),
-            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
-        },
-        'core.member': {
-            'Meta': {'object_name': 'Member'},
-            'commission': ('django.db.models.fields.IntegerField', [], {}),
-            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'e_authors': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'e_new_report': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'e_none': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'gst_hst': ('django.db.models.fields.CharField', [], {'max_length': '50', 'unique': 'True', 'null': 'True', 'blank': 'True'}),
-            'handle': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '200'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_auth_active': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'money': ('django.db.models.fields.DecimalField', [], {'default': '0.0', 'max_digits': '10', 'decimal_places': '2'}),
-            'paypal': ('django.db.models.fields.CharField', [], {'max_length': '50', 'unique': 'True', 'null': 'True', 'blank': 'True'}),
-            'type': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'user': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['auth.User']", 'unique': 'True', 'null': 'True', 'blank': 'True'})
-        },
-        'core.mycart': {
-            'Meta': {'object_name': 'MyCart'},
-            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'member': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core.Member']"}),
-            'report': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'+'", 'to': "orm['core.Report']"}),
-            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
-        },
-        'core.report': {
-            'Meta': {'object_name': 'Report'},
-            'author': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core.Member']"}),
-            'chart_count': ('django.db.models.fields.IntegerField', [], {}),
-            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'day_rang': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'description': ('django.db.models.fields.CharField', [], {'max_length': '250', 'null': 'True', 'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_hide': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'page_count': ('django.db.models.fields.IntegerField', [], {}),
-            'price': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'price_type': ('django.db.models.fields.IntegerField', [], {}),
-            'price_update_time': ('django.db.models.fields.DateTimeField', [], {}),
-            'publish_time': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2012, 3, 30, 2, 42, 59, 336553)'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '500'}),
-            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'word_count': ('django.db.models.fields.IntegerField', [], {})
-        },
-        'core.reporttagr': {
-            'Meta': {'object_name': 'ReportTagR'},
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'report': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core.Report']"}),
-            'tag': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'+'", 'to': "orm['core.Tag']"})
-        },
-        'core.searchfilter': {
-            'Meta': {'object_name': 'SearchFilter'},
-            'author': ('django.db.models.fields.CharField', [], {'max_length': '30', 'null': 'True', 'blank': 'True'}),
-            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'filter_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'null': 'True', 'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_free': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'is_paid': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'member': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core.Member']"}),
-            'paid_from': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'paid_to': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'publish_from': ('django.db.models.fields.DateField', [], {}),
-            'publish_to': ('django.db.models.fields.DateField', [], {}),
-            'report_title': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
-            'tags': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
-        },
-        'core.tag': {
-            'Meta': {'object_name': 'Tag'},
+        'core.gadgets': {
+            'Meta': {'object_name': 'Gadgets'},
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'}),
+            'type': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
             'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
         },
-        'core.taxsetting': {
-            'Meta': {'object_name': 'TaxSetting'},
-            'alberta': ('django.db.models.fields.IntegerField', [], {}),
-            'british_columbia': ('django.db.models.fields.IntegerField', [], {}),
+        'core.gadgetsdetail': {
+            'Meta': {'object_name': 'GadgetsDetail'},
+            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'gadget': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core.Gadgets']"}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'password': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'username': ('django.db.models.fields.CharField', [], {'max_length': '50'})
+        },
+        'core.library': {
+            'Meta': {'object_name': 'Library'},
+            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'gadget': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core.Gadgets']"}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'type': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
+        },
+        'core.tab': {
+            'Meta': {'object_name': 'Tab'},
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'manitoba': ('django.db.models.fields.IntegerField', [], {}),
-            'new_brunswick': ('django.db.models.fields.IntegerField', [], {}),
-            'newfoundland_labrador': ('django.db.models.fields.IntegerField', [], {}),
-            'northwest_territories': ('django.db.models.fields.IntegerField', [], {}),
-            'nova_scotia': ('django.db.models.fields.IntegerField', [], {}),
-            'nunavut': ('django.db.models.fields.IntegerField', [], {}),
-            'ontario': ('django.db.models.fields.IntegerField', [], {}),
-            'price_edward_island': ('django.db.models.fields.IntegerField', [], {}),
-            'quebec': ('django.db.models.fields.IntegerField', [], {}),
-            'saskatchewan': ('django.db.models.fields.IntegerField', [], {}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '30'}),
+            'order': ('django.db.models.fields.IntegerField', [], {}),
+            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'user_profile': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"})
+        },
+        'core.tabgadgetsr': {
+            'Meta': {'object_name': 'TabGadgetsR'},
+            'column': ('django.db.models.fields.IntegerField', [], {}),
+            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'gadgets_detail': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core.GadgetsDetail']"}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'row': ('django.db.models.fields.IntegerField', [], {}),
+            'tab': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core.Tab']"}),
             'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
+        },
+        'core.userprofile': {
+            'Meta': {'object_name': 'UserProfile'},
+            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'type': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'user': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['auth.User']", 'unique': 'True', 'null': 'True', 'blank': 'True'})
         }
     }
 

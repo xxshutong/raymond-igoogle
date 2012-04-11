@@ -20,9 +20,9 @@ def get_db_settings():
                 dbs['default']['ENGINE'] = 'django.db.backends.mysql'
         else:
             dbs['default'] = {
-                'NAME': 'stocktrenz',
-                'USER': 'stocktrenz',
-                'PASSWORD': 'stocktrenz',
+                'NAME': 'igoogle',
+                'USER': 'igoogle',
+                'PASSWORD': 'igoogle',
                 'HOST': 'localhost',
                 'PORT': '',
             }

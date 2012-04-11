@@ -8,8 +8,6 @@
     <br>
     <div class="div_border form_normal_padding">
         <h2 align="center" style="margin-top: 10px;">FREE New User Signup</h2>
-        <div align="center"><a href="{% url register_author %}" class="size_normal">Signup as an Author instead</a></div>
-        <br>
         <div>
             <form method="POST" action="{% url register_user %}" id="register_form" class="middle_form form-horizontal">
                 {% csrf_token %}
