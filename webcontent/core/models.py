@@ -30,17 +30,15 @@ class BaseModel(models.Model):
 
 class UserProfile(BaseModel):
     """
-    Normal User & Author
+    Normal User
     """
-    MEMBER_TYPE = (
-        (0, 'User'),
-        (1, 'Admin')
-    )
-
     user = OneToOneField(User, null=True, blank=True)
-    type = models.IntegerField(choices=MEMBER_TYPE, default=0)
+    full_name = models.CharField(max_length=50)
+    birthday = models.DateField()
+    ic_num = models.CharField(max_length=50)
 
-
+    def __unicode__(self):
+        return self.full_name
 
 class Gadgets(BaseModel):
     """

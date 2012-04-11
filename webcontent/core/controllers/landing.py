@@ -29,7 +29,7 @@ def login(request):
     User & Author Login
     """
     errors = ''
-    login_error_message = "Please enter a correct email and password."
+    login_error_message = "Please enter a correct username and password."
 
     if request.method == 'GET':
         form = LoginForm()
@@ -37,7 +37,7 @@ def login(request):
         form = LoginForm(request.POST)
         if form.is_valid():
             #Authenticate user
-            user = authenticate(username=utils.generate_base64_string(form.cleaned_data['email']),
+            user = authenticate(username=form.cleaned_data['username'],
                 password=form.cleaned_data['password'])
             if user:
                 if user.is_active:
@@ -89,7 +89,6 @@ def register_user(request):
                         {
                         'is_author':False,
                         'email': user.email,
-                        'is_success': is_success
                     }),
             )
     return render_to_response(REGISTER_USER_PAGE, {},

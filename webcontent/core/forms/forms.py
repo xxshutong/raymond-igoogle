@@ -1,17 +1,35 @@
+import datetime
 from django import forms
 from django.contrib.auth.models import User
 from django.db import transaction
-from webcontent.core import utils
+from django.forms.models import ModelForm
+from webcontent.core.models import UserProfile
 from webcontent.core.utils import wrap_email
 
-class RegisterUserForm(forms.Form):
+class RegisterUserForm(ModelForm):
+    class Meta:
+        model = UserProfile
 
-    handle = forms.RegexField(max_length=50, regex=r'^[\w.@+-]+$', widget=forms.TextInput(attrs={'class': 'input-xlarge', 'placeholder': 'User''s Handler'}),
-        error_messages = {'invalid': u"Required. 50 characters or fewer. Letters, numbers and @/./+/-/_ characters."})
-    email = forms.EmailField(widget=forms.TextInput(attrs={'class': 'input-xlarge', 'placeholder': 'Email Address'}))
+    def __init__(self, *args, **kwargs):
+        self.base_fields['full_name'].widget.attrs.update({'placeholder': 'Full Name'})
+        self.base_fields['birthday'].widget.attrs.update({'placeholder': 'Birthday', 'readonly':'true'})
+        self.base_fields['ic_num'].widget.attrs.update({'placeholder': 'IC Number'})
+        super(RegisterUserForm, self).__init__(*args, **kwargs)
+
+    username = forms.RegexField(max_length=30, regex=r'^[\w.@+-]+$', widget=forms.TextInput(attrs={'placeholder': 'User name'}),
+        error_messages = {'invalid': "This value may contain only letters, numbers and @/./+/-/_ characters."})
+    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
     password = forms.CharField(widget=forms.PasswordInput(render_value=False, attrs={'class': 'input-large', 'placeholder': 'Password'}))
     password2 = forms.CharField(widget=forms.PasswordInput(render_value=False, attrs={'class': 'input-large', 'placeholder': 'Confirm Password'}))
     tos = forms.BooleanField(widget=forms.CheckboxInput(), required=False)
+
+    def clean_username(self):
+        username = self.cleaned_data["username"]
+        try:
+            User.objects.get(username=username)
+        except User.DoesNotExist:
+            return username
+        raise forms.ValidationError("A user with that username already exists.")
 
     def clean_email(self):
         """
@@ -47,73 +65,78 @@ class RegisterUserForm(forms.Form):
     @transaction.commit_on_success
     def save(self, **new_data):
         #create user
-        username = utils.generate_base64_string(new_data['email'])
-        user = User.objects.create_user(username, new_data['email'], new_data['password'])
-        user.is_active = False
+        user = User.objects.create_user(new_data['username'], new_data['email'], new_data['password'])
         user.save()
 
         #create member
-        Member.objects.create(user = user, type = 0, handle = new_data['handle'])
+        del new_data['email']
+        del new_data['password']
+        del new_data['password2']
+        del new_data['tos']
+        del new_data['user']
+        del new_data['username']
+        UserProfile.objects.create(user = user,  created_at = datetime.datetime.now(), updated_at = datetime.datetime.now(), **new_data)
         return user
 
 
 class LoginForm(forms.Form):
 
-    email = forms.EmailField(widget=forms.TextInput(attrs={'class': 'input-xlarge', 'placeholder': 'Email Address'}))
+    username = forms.RegexField(max_length=30, regex=r'^[\w.@+-]+$', widget=forms.TextInput(attrs={'placeholder': 'User name'}),
+        error_messages = {'invalid': "This value may contain only letters, numbers and @/./+/-/_ characters."})
     password = forms.CharField(widget=forms.PasswordInput(render_value=False, attrs={'class': 'input-large', 'placeholder': 'Password'}))
 
 class AccountSettingForm(RegisterUserForm):
-    """
-    Used to update account settings
-    """
-    member_id = forms.IntegerField(widget=forms.HiddenInput())
-
-    def clean_handle(self):
-        """
-        Validate that the supplied handler is unique for the
-        site.
-
-        """
-        cur_member = Member.objects.get(pk=self.data['member_id'])
-        handle = self.cleaned_data["handle"]
-        try:
-            member = Member.objects.get(handle=handle)
-            if member.handle == cur_member.handle:
-                return handle
-        except Member.DoesNotExist:
-            return handle
-        raise forms.ValidationError(u'Handle already exists.')
-
-    def clean_email(self):
-        """
-        Validate that the supplied email is unique for the
-        site.
-
-        """
-        cur_member = Member.objects.get(pk=self.data['member_id'])
-        email = wrap_email(self.cleaned_data['email'])
-        try:
-            user = User.objects.get(email__iexact=email)
-            if user.email == cur_member.user.email:
-                return email
-        except User.DoesNotExist:
-            return email
-        raise forms.ValidationError(u'Email already exists.')
-
-    def clean_tos(self):
-        pass
-
-    @transaction.commit_on_success
-    def save(self, **new_data):
-        #update user
-        member = Member.objects.get(pk=new_data['member_id'])
-        if member.type == 1:
-            member.paypal = new_data['paypal']
-            member.gst_hst = new_data['gst_hst']
-        member.handle = new_data['handle']
-        member.user.email = new_data['email']
-        member.user.set_password(new_data['password'])
-        member.user.save()
-        member.save()
-        return member
-
+#    """
+#    Used to update account settings
+#    """
+#    member_id = forms.IntegerField(widget=forms.HiddenInput())
+#
+#    def clean_handle(self):
+#        """
+#        Validate that the supplied handler is unique for the
+#        site.
+#
+#        """
+#        cur_member = Member.objects.get(pk=self.data['member_id'])
+#        handle = self.cleaned_data["handle"]
+#        try:
+#            member = Member.objects.get(handle=handle)
+#            if member.handle == cur_member.handle:
+#                return handle
+#        except Member.DoesNotExist:
+#            return handle
+#        raise forms.ValidationError(u'Handle already exists.')
+#
+#    def clean_email(self):
+#        """
+#        Validate that the supplied email is unique for the
+#        site.
+#
+#        """
+#        cur_member = Member.objects.get(pk=self.data['member_id'])
+#        email = wrap_email(self.cleaned_data['email'])
+#        try:
+#            user = User.objects.get(email__iexact=email)
+#            if user.email == cur_member.user.email:
+#                return email
+#        except User.DoesNotExist:
+#            return email
+#        raise forms.ValidationError(u'Email already exists.')
+#
+#    def clean_tos(self):
+#        pass
+#
+#    @transaction.commit_on_success
+#    def save(self, **new_data):
+#        #update user
+#        member = Member.objects.get(pk=new_data['member_id'])
+#        if member.type == 1:
+#            member.paypal = new_data['paypal']
+#            member.gst_hst = new_data['gst_hst']
+#        member.handle = new_data['handle']
+#        member.user.email = new_data['email']
+#        member.user.set_password(new_data['password'])
+#        member.user.save()
+#        member.save()
+#        return member
+    pass

@@ -1,4 +1,3 @@
-import logging
 import pgurl, os
 # Django settings for backend project.
 
@@ -146,7 +145,7 @@ SESSION_COOKIE_AGE = 5400
 SITE_DOMAIN = "localhost:8000"
 
 # Storing additional information about users
-AUTH_PROFILE_MODULE = 'core.Member'
+AUTH_PROFILE_MODULE = 'core.UserProfile'
 
 # Register or change email link expire time
 EMAIL_EXPIRE_TIME = 14

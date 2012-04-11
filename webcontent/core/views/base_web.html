@@ -16,16 +16,13 @@
                         <ul class="nav">
                             {% if user.is_active %}
                                 <li>
-                                    <a href="">
+                                    <a href="#">
                                         {% block welcome %}
                                         Hello,
-                                        <strong>{% filter force_escape %}{{ user.get_profile.handle }}{% endfilter %}</strong>.
+                                        <strong>{% filter force_escape %}{{ user.username }}{% endfilter %}</strong>.
                                         {% endblock %}
                                     </a>
                                 </li>
-                            {% endif %}
-                            {% if user.is_active and not user.is_staff %}
-                                <li {% if active_menu == "publish_report" %} class="active" {% endif %}><a href="#">My Cart</a></li>
                             {% endif %}
 
 
@@ -34,10 +31,7 @@
                             {% if user.is_active %}
                                 {% if not user.is_staff %}
                                     <li {% if active_menu == "publish_report" %} class="active" {% endif %}><a href="#">Publish Report</a></li>
-                                    <li {% if active_menu == "email_settings" %} class="active" {% endif %}><a href="{% url email_settings %}">Email Settings</a></li>
-                                    <li {% if active_menu == "account_settings" %} class="active" {% endif %}><a href="{% url account_settings %}">Account Settings</a></li>
-                                    <li {% if active_menu == "history" %} class="active" {% endif %}><a href="#">History</a></li>
-                                    <li {% if active_menu == "Search Reports" %} class="active" {% endif %}><a href="#">Search Reports</a></li>
+                                    <li {% if active_menu == "account_settings" %} class="active" {% endif %}><a href="#">Account Settings</a></li>
                                 {% endif %}
                                 <li><a href="{% url logout %}">Logout</a></li>
                             {% else %}

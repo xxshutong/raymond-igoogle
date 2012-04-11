@@ -1,10 +1,15 @@
 {% extends "base_web.html" %}
 
-{% block title %}StockTrenz | User Register{% endblock %}
+{% block title %}UKM | User Register{% endblock %}
+{% block extrastyle %}
+<link rel="stylesheet" href="/static/css/datepicker.css">
+<script type='text/javascript' src="/static/js/google-code-prettify/prettify.js"></script>
+<script type='text/javascript' src="/static/js/bootstrap-datepicker.js"></script>
+{% endblock %}
+
 
 {% block content %}
     <div align="center"><img src="/static/img/ST-960x227.png" class="logo_top_middle" alt="StockTrenz"></div>
-    <p align="center" style="font-style: italic;font-size: 18px;">"The easiest way to make money is to know the trend"</p>
     <br>
     <div class="div_border form_normal_padding">
         <h2 align="center" style="margin-top: 10px;">FREE New User Signup</h2>
@@ -13,16 +18,11 @@
                 {% csrf_token %}
                 {{ form.non_field_errors }}
                 <fieldset>
+                    <br/>
                     <div class="control-group" align="center">
                         <div class="large_form_width" align="left">
-                            {{ form.handle }}
-                            {{ form.handle.errors }}
-                        </div>
-                    </div>
-                    <div class="control-group" align="center">
-                        <div class="large_form_width" align="left">
-                            {{ form.email }}
-                            {{ form.email.errors }}
+                            {{ form.username }}
+                            {{ form.username.errors }}
                         </div>
                     </div>
                     <div class="control-group" align="center">
@@ -39,9 +39,33 @@
                     </div>
                     <div class="control-group" align="center">
                         <div class="large_form_width" align="left">
+                            {{ form.email }}
+                            {{ form.email.errors }}
+                        </div>
+                    </div>
+                    <div class="control-group" align="center">
+                        <div class="large_form_width" align="left">
+                            {{ form.full_name }}
+                            {{ form.full_name.errors }}
+                        </div>
+                    </div>
+                    <div class="control-group" align="center">
+                        <div class="large_form_width" align="left">
+                            {{ form.birthday }}
+                            {{ form.birthday.errors }}
+                        </div>
+                    </div>
+                    <div class="control-group" align="center">
+                        <div class="large_form_width" align="left">
+                            {{ form.ic_num }}
+                            {{ form.ic_num.errors }}
+                        </div>
+                    </div>
+                    <div class="control-group" align="center">
+                        <div class="large_form_width" align="left">
                             <label class="checkbox">
                                 {{ form.tos }}
-                                I have read and agree to StockTrenz <a href="" style="text-decoration: underline">Terms of service</a>
+                                I have read and agree to UKM <a href="" style="text-decoration: underline">Terms of service</a>
                                 {{ form.tos.errors }}
                             </label>
                         </div>
@@ -58,4 +82,16 @@
 
 <hr>
 
+<script>
+
+    window.prettyPrint && prettyPrint();
+    $('#id_birthday').datepicker()
+            .on('changeDate', function(ev){
+                $('#start_date').datepicker('hide');
+            });
+
+    $('#id_birthday').click(function() {
+        $('#start_date').datepicker('show');
+    })
+</script>
 {% endblock %}
