@@ -66,11 +66,10 @@ class Library(BaseModel):
     def __unicode__(self):
         return self.type + ' - ' + self.gadget.name
 
-
 class Tab(BaseModel):
     user_profile = models.ForeignKey(User, name='user_profile')
     name = models.CharField(max_length=30)
-    order = models.IntegerField()
+    order = models.IntegerField(null=True, blank=True)
 
 class TabGadgetsR(BaseModel):
     tab = models.ForeignKey(Tab, name='tab')

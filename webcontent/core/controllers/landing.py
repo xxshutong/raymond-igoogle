@@ -1,11 +1,13 @@
 from django.contrib.auth import authenticate
+from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
 from django.template.context import RequestContext
+from django.utils import simplejson
 from webcontent import settings
-from webcontent.core import utils
-from webcontent.core.forms.forms import RegisterUserForm, LoginForm
+from webcontent.core.forms.forms import RegisterUserForm, LoginForm, TabForm
 from django.contrib.auth import login as djlogin
 from django.contrib.auth import logout as djlogout
+from webcontent.core.models import Tab
 
 DASHBOARD_PAGE = 'dashboard.html'
 LOGIN_PAGE = 'login.html'
@@ -44,11 +46,7 @@ def login(request):
                     if not user.is_staff and not user.is_superuser:
                         djlogin(request, user)
                         request.session.set_expiry(settings.SESSION_COOKIE_AGE)
-                        return render_to_response(MEMBER_DASHBOARD_PAGE, {},
-                            RequestContext(request,
-                                    {
-                                }),
-                        )
+                        return go_member_dashboard(request)
                     else:
                         errors = login_error_message
                 else:
@@ -66,6 +64,52 @@ def login(request):
                 'errors':errors
             }),
     )
+
+def go_member_dashboard(request):
+    tab_form = TabForm()
+    tab_list = Tab.objects.filter(user_profile=request.user).order_by('order')
+    return render_to_response(MEMBER_DASHBOARD_PAGE, {},
+        RequestContext(request,
+                {
+                'tab_form': tab_form,
+                'tab_list': tab_list
+            }),
+    )
+
+def add_tab(request):
+    '''
+    Add a new tab
+    '''
+    instance = Tab()
+    instance.user_profile = request.user
+    tab_from = TabForm(request.POST, instance=instance)
+    if tab_from.is_valid():
+        tab_from.save()
+    return go_member_dashboard(request)
+
+def delete_tab(request):
+    '''
+    Delete selected tab
+    '''
+    tab_id = request.POST.get('selected_tab', None)
+    tab = Tab.objects.get(pk=tab_id)
+    tab.delete()
+    return go_member_dashboard(request)
+
+def ajax_check_name(request):
+    '''
+    Check tab name is unique for one person
+    '''
+    success = False
+    name = request.GET.get('name', None)
+    try:
+        Tab.objects.get(user_profile=request.user, name__iexact=name)
+    except Tab.DoesNotExist:
+        success = True
+    data = {'success': success}
+    data = simplejson.dumps(data)
+    return HttpResponse(data, 'application/json')
+
 
 def logout(request):
     """

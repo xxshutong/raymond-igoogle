@@ -10,6 +10,10 @@ urlpatterns = patterns('webcontent.core.controllers.landing',
     url(r'^login/$', 'login', name='login'),
     url(r'^logout/$', 'logout', name='logout'),
     url(r'^register/user/$', 'register_user', name='register_user'),
+    url(r'^dashboard/member/$', 'go_member_dashboard', name='go_member_dashboard'),
+    url(r'^tab/new/$', 'add_tab', name='add_tab'),
+    url(r'^tab/delete/$', 'delete_tab', name='delete_tab'),
+    url(r'^tab/check_name/$', 'ajax_check_name', name='ajax_check_name'),
 )
 
 urlpatterns += patterns('webcontent.core.controllers.account',

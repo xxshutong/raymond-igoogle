@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.db import transaction
 from django.forms.models import ModelForm
-from webcontent.core.models import UserProfile
+from webcontent.core.models import UserProfile, Tab
 from webcontent.core.utils import wrap_email
 
 class RegisterUserForm(ModelForm):
@@ -26,7 +26,7 @@ class RegisterUserForm(ModelForm):
     def clean_username(self):
         username = self.cleaned_data["username"]
         try:
-            User.objects.get(username=username)
+            User.objects.get(username__iexact=username)
         except User.DoesNotExist:
             return username
         raise forms.ValidationError("A user with that username already exists.")
@@ -84,6 +84,15 @@ class LoginForm(forms.Form):
     username = forms.RegexField(max_length=30, regex=r'^[\w.@+-]+$', widget=forms.TextInput(attrs={'placeholder': 'User name'}),
         error_messages = {'invalid': "This value may contain only letters, numbers and @/./+/-/_ characters."})
     password = forms.CharField(widget=forms.PasswordInput(render_value=False, attrs={'class': 'input-large', 'placeholder': 'Password'}))
+
+class TabForm(ModelForm):
+    class Meta:
+        model = Tab
+        exclude = ('user_profile', 'order')
+
+    def __init__(self, *args, **kwargs):
+        self.base_fields['name'].widget.attrs.update({'placeholder': 'Tab Name'})
+        super(TabForm, self).__init__(*args, **kwargs)
 
 class AccountSettingForm(RegisterUserForm):
 #    """
