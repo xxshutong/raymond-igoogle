@@ -64,3 +64,18 @@ ul.warninglist {
 .text_align_left {
     text-align: left;
 }
+
+.li_badget {
+    float: left;
+    padding: 10px;
+    list-style: none;
+    width: 150px;
+    height: 200px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.active {
+    background-color: #808080;
+    color: #ffffff;
+}

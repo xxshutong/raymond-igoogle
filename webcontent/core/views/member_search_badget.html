@@ -1,0 +1,103 @@
+{% extends "base_web.html" %}
+
+{% block title %}UKM | Dashboard{% endblock %}
+
+{% block content %}
+<style type="text/css">
+    .btn:hover {
+        background-position: center;
+    }
+</style>
+    <div class="row-fluid">
+        <div class="span3">
+            {% include "member_left_side.html" %}
+        </div><!--/span-->
+        <div class="span9">
+            <div style="margin-bottom: 20px">
+                <input type="text" style="margin-bottom: 0px"/>
+                &nbsp;
+                <a class="btn btn-primary">Search</a>
+            </div>
+
+            <div>
+                <ul>
+                    {% for gadget in gadgets %}
+                        <li class="li_badget">
+                            {% if gadget.type == 'Facebook' %}
+                                <img src="../static/img/badget/facebook.png" alt="Facebook">
+                                <span>{{ gadget.name }}</span>
+                            {% endif %}
+                            <a onclick="add_gadget({{ gadget.id }})" data-toggle="modal" class="btn btn-primary" style="margin-top: 15px; display: none;">Add To Tab</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div><!--/span-->
+    </div>
+
+<hr>
+
+<div class="modal hide fade" id="add_gadget">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3>Add to Selected Tab</h3>
+    </div>
+    <div class="modal-body">
+        <form method="POST" action="{% url add_gadget %}" id="add_gadget_form" class="form-horizontal">
+            <input type="hidden" id="gadget_id" name="gadget_id">
+            {% csrf_token %}
+            <fieldset>
+                <div class="control-group" align="center">
+                    <div id="id_add_gadget_error" class="middle_form_width" style="text-align:  left; font-style: italic; color: red">
+                    </div>
+                </div>
+                <div class="control-group" align="center">
+                    <div class="middle_form_width" style="text-align:  left">
+                        <select id="gadget_tab" name="gadget_tab">
+                            <option label="Please Select" value="" />
+                            {% for tab in tab_list %}
+                            <option label="{{ tab.name }}" value="{{ tab.id }}" />
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group" align="center">
+                    <div class="middle_form_width" style="text-align:  left">
+                        <a onclick="check_add_tab()" class="btn btn-primary">Add</a>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('.li_badget').hover(function() {
+        $('.li_badget').removeClass('active');
+        $('.li_badget').find('a').hide();
+        $(this).addClass('active');
+        $(this).find('a').show();
+    })
+
+    function add_gadget(gadget_id) {
+        $('#gadget_id').val(gadget_id);
+        $('#add_gadget').modal({
+            keyboard: false
+        })
+    }
+
+    function check_add_tab() {
+        $('#id_add_gadget_error').empty();
+        var name = $('#gadget_tab').val()
+        if (name == '') {
+            $('#id_add_gadget_error').append("Please select a tab for delete.");
+            return;
+        }
+        $('#add_gadget_form').submit();
+    }
+
+</script>
+{% endblock %}

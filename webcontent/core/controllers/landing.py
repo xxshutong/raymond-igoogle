@@ -1,9 +1,11 @@
 from django.contrib.auth import authenticate
+from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
 from django.template.context import RequestContext
 from django.utils import simplejson
 from webcontent import settings
+from webcontent.core import models
 from webcontent.core.forms.forms import RegisterUserForm, LoginForm, TabForm
 from django.contrib.auth import login as djlogin
 from django.contrib.auth import logout as djlogout
@@ -15,6 +17,7 @@ REGISTER_USER_PAGE = 'register_user.html'
 REGISTER_AUTHOR_PAGE = 'register_author.html'
 REGISTER_SUCCESS_PAGE = 'register_success.html'
 MEMBER_DASHBOARD_PAGE = 'member_dashboard.html'
+MEMBER_SEARCH_PAGE = 'member_search_badget.html'
 
 def dashboard(request):
     """
@@ -95,6 +98,34 @@ def delete_tab(request):
     tab = Tab.objects.get(pk=tab_id)
     tab.delete()
     return go_member_dashboard(request)
+
+@transaction.commit_on_success
+def add_gadget(request):
+    '''
+    Add gadget to selected tab
+    '''
+    tab_id = request.POST.get('gadget_tab')
+    gadget_id = request.POST.get('gadget_id')
+
+    gadget_detail = models.GadgetsDetail(gadget_id=gadget_id)
+    gadget_detail.save()
+    tab_gadget_r = models.TabGadgetsR(tab_id=tab_id, gadgets_detail=gadget_detail)
+    tab_gadget_r.save()
+    return go_member_dashboard(request)
+
+def search_gadget(request):
+    tab_form = TabForm()
+    tab_list = Tab.objects.filter(user_profile=request.user).order_by('order')
+    gadgets = models.Gadgets.objects.filter().order_by('type')
+    return render_to_response(MEMBER_SEARCH_PAGE, {},
+        RequestContext(request,
+                {
+                'tab_form': tab_form,
+                'tab_list': tab_list,
+                'gadgets': gadgets
+            }),
+    )
+
 
 def ajax_check_name(request):
     '''

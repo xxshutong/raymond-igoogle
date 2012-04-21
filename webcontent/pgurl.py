@@ -21,8 +21,8 @@ def get_db_settings():
         else:
             dbs['default'] = {
                 'NAME': 'igoogle',
-                'USER': 'igoogle',
-                'PASSWORD': 'igoogle',
+                'USER': 'postgres',
+                'PASSWORD': 'postgres',
                 'HOST': 'localhost',
                 'PORT': '',
             }

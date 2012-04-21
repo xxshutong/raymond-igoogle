@@ -14,6 +14,8 @@ urlpatterns = patterns('webcontent.core.controllers.landing',
     url(r'^tab/new/$', 'add_tab', name='add_tab'),
     url(r'^tab/delete/$', 'delete_tab', name='delete_tab'),
     url(r'^tab/check_name/$', 'ajax_check_name', name='ajax_check_name'),
+    url(r'^search_gadget/$', 'search_gadget', name='search_gadget'),
+    url(r'^add_gadget/$', 'add_gadget', name='add_gadget'),
 )
 
 urlpatterns += patterns('webcontent.core.controllers.account',
