@@ -44,21 +44,27 @@
     </div>
     <div class="modal-body">
         <form method="POST" action="{% url add_gadget %}" id="add_gadget_form" class="form-horizontal">
-            <input type="hidden" id="gadget_id" name="gadget_id">
             {% csrf_token %}
             <fieldset>
                 <div class="control-group" align="center">
                     <div id="id_add_gadget_error" class="middle_form_width" style="text-align:  left; font-style: italic; color: red">
                     </div>
                 </div>
+                <input type="hidden" id="id_gadget" name="gadget"/>
                 <div class="control-group" align="center">
                     <div class="middle_form_width" style="text-align:  left">
-                        <select id="gadget_tab" name="gadget_tab">
+                        <select id="id_tab" name="tab">
                             <option label="Please Select" value="" />
                             {% for tab in tab_list %}
                             <option label="{{ tab.name }}" value="{{ tab.id }}" />
                             {% endfor %}
                         </select>
+                    </div>
+                </div>
+                <div class="control-group" align="center">
+                    <div class="middle_form_width" style="text-align:  left">
+                        {{ tag_gadget_form.title }}
+                        {{ tag_gadget_form.title.errors }}
                     </div>
                 </div>
                 <div class="control-group" align="center">
@@ -83,7 +89,7 @@
     })
 
     function add_gadget(gadget_id) {
-        $('#gadget_id').val(gadget_id);
+        $('#id_gadget').val(gadget_id)
         $('#add_gadget').modal({
             keyboard: false
         })
@@ -91,9 +97,14 @@
 
     function check_add_tab() {
         $('#id_add_gadget_error').empty();
-        var name = $('#gadget_tab').val()
+        var name = $('#id_tab').val()
         if (name == '') {
             $('#id_add_gadget_error').append("Please select a tab for delete.");
+            return;
+        }
+        var title = $('#id_title').val()
+        if (title == '') {
+            $('#id_add_gadget_error').append("Gadget title is required.");
             return;
         }
         $('#add_gadget_form').submit();

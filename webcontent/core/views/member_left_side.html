@@ -8,7 +8,7 @@
     <ul class="nav nav-list" style="margin-top: 10px">
         <li class="nav-header">My Tabs</li>
         {% for tab in tab_list %}
-        <li><a href="#">{{ tab.name }}</a></li>
+        <li><a href="/tab/show_detail/{{tab.id}}/">{{ tab.name }}</a></li>
         {% endfor %}
     </ul>
 </div>

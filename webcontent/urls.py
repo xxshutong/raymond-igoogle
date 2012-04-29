@@ -14,8 +14,12 @@ urlpatterns = patterns('webcontent.core.controllers.landing',
     url(r'^tab/new/$', 'add_tab', name='add_tab'),
     url(r'^tab/delete/$', 'delete_tab', name='delete_tab'),
     url(r'^tab/check_name/$', 'ajax_check_name', name='ajax_check_name'),
+    url(r'^tab/show_detail/(?P<tab_id>\w+)/$', 'show_detail', name='show_detail'),
     url(r'^search_gadget/$', 'search_gadget', name='search_gadget'),
     url(r'^add_gadget/$', 'add_gadget', name='add_gadget'),
+
+    # show gadget list
+    url(r'^tab/show_detail_frame/(?P<tab_id>\w+)/$', 'show_detail_frame', name='show_detail_frame'),
 )
 
 urlpatterns += patterns('webcontent.core.controllers.account',

@@ -1,0 +1,22 @@
+{% extends "base_web.html" %}
+
+{% block title %}UKM | Dashboard{% endblock %}
+
+{% block content %}
+<style type="text/css">
+    .btn:hover {
+        background-position: center;
+    }
+</style>
+    <div class="row-fluid">
+        <div class="span3">
+            {% include "member_left_side.html" %}
+        </div><!--/span-->
+        <iframe style="margin-left: 5px;" width="890px" height="800px" src="http://nettuts.s3.amazonaws.com/127_iNETTUTS/demo/index.html">
+
+        </iframe>
+    </div>
+
+<hr>
+
+{% endblock %}

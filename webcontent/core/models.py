@@ -50,13 +50,6 @@ class Gadgets(BaseModel):
     def __unicode__(self):
         return self.name
 
-class GadgetsDetail(BaseModel):
-    """
-    Gadgets Management
-    """
-    gadget = models.ForeignKey(Gadgets, name='gadget')
-    username = models.CharField(max_length=50)
-    password = models.CharField(max_length=100)
 
 
 class Library(BaseModel):
@@ -73,6 +66,11 @@ class Tab(BaseModel):
 
 class TabGadgetsR(BaseModel):
     tab = models.ForeignKey(Tab, name='tab')
-    gadgets_detail = models.ForeignKey(GadgetsDetail, name='gadgets_detail')
+    gadget = models.ForeignKey(Gadgets, name='gadget')
     column = models.IntegerField()
     row = models.IntegerField()
+    title = models.CharField(max_length=20, null=True, blank=True)
+    width = models.IntegerField(null=True, blank=True)
+    height = models.IntegerField(null=True, blank=True)
+    color_class = models.CharField(max_length=30, default='color-green')
+

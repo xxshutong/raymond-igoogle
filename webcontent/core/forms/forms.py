@@ -1,9 +1,10 @@
 import datetime
+import random
 from django import forms
 from django.contrib.auth.models import User
 from django.db import transaction
 from django.forms.models import ModelForm
-from webcontent.core.models import UserProfile, Tab
+from webcontent.core.models import UserProfile, Tab, TabGadgetsR
 from webcontent.core.utils import wrap_email
 
 class RegisterUserForm(ModelForm):
@@ -93,6 +94,25 @@ class TabForm(ModelForm):
     def __init__(self, *args, **kwargs):
         self.base_fields['name'].widget.attrs.update({'placeholder': 'Tab Name'})
         super(TabForm, self).__init__(*args, **kwargs)
+
+class TabGadgetsRForm(ModelForm):
+    class Meta:
+        model = TabGadgetsR
+        fields = ('tab', 'gadget', 'title')
+
+    def __init__(self, *args, **kwargs):
+        self.base_fields['title'].widget.attrs.update({'placeholder': 'Gadget Title'})
+        super(TabGadgetsRForm, self).__init__(*args, **kwargs)
+
+    @transaction.commit_on_success
+    def save(self, **new_data):
+        tgr = TabGadgetsR()
+        tgr.gadget_id = new_data['gadget']
+        tgr.tab_id = new_data['tab']
+        tgr.title = new_data['title']
+        column = random.uniform(1, 3)
+        tgr.save()
+        return tgr
 
 class AccountSettingForm(RegisterUserForm):
 #    """
