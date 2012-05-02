@@ -25,8 +25,8 @@
                         <li class="li_badget">
                             {% if gadget.type == 'Facebook' %}
                                 <img src="../static/img/badget/facebook.png" alt="Facebook">
-                                <span>{{ gadget.name }}</span>
                             {% endif %}
+                            <span>{{ gadget.name }}</span>
                             <a onclick="add_gadget({{ gadget.id }})" data-toggle="modal" class="btn btn-primary" style="margin-top: 15px; display: none;">Add To Tab</a>
                         </li>
                     {% endfor %}

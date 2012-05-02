@@ -1,22 +1,48 @@
-{% extends "base_web.html" %}
 
-{% block title %}UKM | Dashboard{% endblock %}
 
-{% block content %}
-<style type="text/css">
-    .btn:hover {
-        background-position: center;
-    }
-</style>
-    <div class="row-fluid">
-        <div class="span3">
-            {% include "member_left_side.html" %}
-        </div><!--/span-->
-        <iframe style="margin-left: 5px;" width="890px" height="800px" src="http://nettuts.s3.amazonaws.com/127_iNETTUTS/demo/index.html">
 
-        </iframe>
-    </div>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>iNettuts - Welcome!</title>
 
-<hr>
+    <link href="/static/css/inettuts.css" rel="stylesheet">
+    <link href="/static/css/inettuts.js.css" rel="stylesheet">
+</head>
+<body>
 
-{% endblock %}
+<div id="columns">
+
+    <ul id="column1" class="column">
+        {% for tab_gadget in tab_gadget1_list %}
+            {% include "member_gadgets_frame_template.html"  %}
+        {% endfor %}
+    </ul>
+
+    <ul id="column2" class="column">
+        {% for tab_gadget in tab_gadget2_list %}
+            {% include "member_gadgets_frame_template.html"  %}
+        {% endfor %}
+    </ul>
+
+    <ul id="column3" class="column">
+        {% for tab_gadget in tab_gadget3_list %}
+            {% include "member_gadgets_frame_template.html"  %}
+        {% endfor %}
+    </ul>
+
+</div>
+
+
+<script type="text/javascript" src="http://jqueryjs.googlecode.com/files/jquery-1.2.6.min.js"></script>
+<script src="/static/js/jquery-ui-personal.js"></script>
+<script src="/static/js/inettuts.js"></script>
+
+<script type="text/javascript">
+$('#aaaa').attr('src', 'http://www.myspace.com')
+
+</script>
+
+</body>
+</html>

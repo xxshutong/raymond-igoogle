@@ -158,18 +158,27 @@ def show_detail(request, tab_id=None):
     """
     tab_form = TabForm()
     tab_list = Tab.objects.filter(user_profile=request.user).order_by('order')
+    domain_prefix = 'http://' + request.META["HTTP_HOST"]
     return render_to_response(MEMBER_GADGET_PAGE, {},
         RequestContext(request,
                 {
                 'tab_form': tab_form,
-                'tab_list': tab_list
+                'tab_list': tab_list,
+                'domain_prefix': domain_prefix,
+                'tab_id': tab_id
             }),
     )
 
 def show_detail_frame(request, tab_id=None):
+    tab_gadget1_list = models.TabGadgetsR.objects.filter(tab__id=tab_id, column=1)
+    tab_gadget2_list = models.TabGadgetsR.objects.filter(tab__id=tab_id, column=2)
+    tab_gadget3_list = models.TabGadgetsR.objects.filter(tab__id=tab_id, column=3)
     return render_to_response(MEMBER_GADGET_FRAME_PAGE, {},
         RequestContext(request,
                 {
+                'tab_gadget1_list': tab_gadget1_list,
+                'tab_gadget2_list': tab_gadget2_list,
+                'tab_gadget3_list': tab_gadget3_list
             }),
     )
 

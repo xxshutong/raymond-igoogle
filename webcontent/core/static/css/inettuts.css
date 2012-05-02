@@ -2,7 +2,7 @@
 body,img,p,h1,h2,h3,h4,h5,h6,ul,ol {margin:0; padding:0; list-style:none; border:none;}
 /* End Reset */
 
-body {font-size:0.8em; font-family:Arial,Verdana,Sans-Serif; background: #000;}
+body {font-size:0.8em; font-family:Arial,Verdana,Sans-Serif; }
 a {color:white;}
 
 /* Colors */
@@ -24,7 +24,7 @@ a {color:white;}
 
 /* Head section */
 #head {
-    background: #000 url(img/head-bg.png) repeat-x;
+    background: #000 url(images/head-bg.png) repeat-x;
     height: 100px;
 }
 #head h1 {
@@ -47,13 +47,13 @@ a {color:white;}
 }
 
 /* Column dividers (background-images) : */
-#columns #column1 { background: url(img/column-bg-left.png) no-repeat right top; }
-#columns #column3 { background: url(img/column-bg-right.png) no-repeat left top; }
+#columns #column1 { background: url(images/column-bg-left.png) no-repeat right top; }
+#columns #column3 { background: url(images/column-bg-right.png) no-repeat left top; }
 
-#columns #column1 .widget { margin: 30px 35px 0 25px; }
-#columns #column3 .widget { margin: 30px 25px 0 35px; }
+#columns #column1 .widget { margin: 20px 10px 0 10px; }
+#columns #column3 .widget { margin: 20px 10px 0 10px; }
 #columns .widget {
-    margin: 30px 20px 0 20px;
+    margin: 20px 10px 0 10px;
     padding: 2px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
@@ -70,8 +70,7 @@ a {color:white;}
     float: left;
 }
 #columns .widget .widget-content {
-    background: #333 url(img/widget-content-bg.png) repeat-x;
-    padding: 0 5px;
+    background: #333 url(images/widget-content-bg.png) repeat-x;
     color: #DDD;
     -moz-border-radius-bottomleft: 2px;
     -moz-border-radius-bottomright: 2px;

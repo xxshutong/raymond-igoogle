@@ -1,0 +1,17 @@
+<li class="widget {{ tab_gadget.color_class }}" id="tab_gadget_{{ tab_gadget.id }}">
+    <div class="widget-head">
+        <h3>{{ tab_gadget.title }}</h3>
+    </div>
+    <div class="widget-content">
+        {% if tab_gadget.gadget.type == 'Facebook' %}
+            <script src="//www.gmodules.com/ig/ifr?url=http://hosting.gmodules.com/ig/gadgets/file/100080069921643878012/facebook.xml&amp;up_useNewFB_p=1&amp;up_showPopUp2_p=true&amp;synd=open&amp;w=262&amp;h=300&amp;title=&amp;border=%23ffffff%7C3px%2C1px+solid+%23999999&amp;output=js"></script>
+        {% endif %}
+        {% if tab_gadget.gadget.type == 'Twitter' %}
+            <script src="//www.gmodules.com/ig/ifr?url=http://gadgets.bashennekam.nl/twitter/gadget.xml&amp;up_items=6&amp;up_lastposition=1&amp;synd=open&amp;w=262&amp;h=300&amp;title=&amp;border=%23ffffff%7C3px%2C1px+solid+%23999999&amp;output=js"></script>
+        {% endif %}
+        {% if tab_gadget.gadget.type == 'Myspace' %}
+        <iframe width="100%" id="aaaa" height="100%" frameborder="0" marginheight="0" marginwidth="0" id="PlayFrame" name="PlayFrame" src="http://www.FACEBOOK.com/"></iframe>
+        {% endif %}
+
+    </div>
+</li>
