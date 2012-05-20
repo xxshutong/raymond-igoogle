@@ -78,7 +78,13 @@ a {color:white;}
     -webkit-border-bottom-right-radius: 2px;
     line-height: 1.2em;
     overflow: hidden;
+    height: 345px;
 }
+
+#columns .widget .widget-content iframe{
+    height: 300px;
+}
+
 #columns .widget .widget-content p {
     padding: 0.8em 0;
     border-bottom: 1px solid #666;
