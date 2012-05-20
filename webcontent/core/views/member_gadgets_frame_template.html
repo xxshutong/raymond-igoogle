@@ -1,8 +1,38 @@
 <li class="widget {{ tab_gadget.color_class }}" id="tab_gadget_{{ tab_gadget.id }}">
     <div class="widget-head">
         <h3>{{ tab_gadget.title }}</h3>
+        <input type="hidden" value="{{ tab_gadget.id }}">
     </div>
     <div class="widget-content">
+        {% if tab_gadget.gadget.type == 'Facebook' %}
+            <script src="//www.gmodules.com/ig/ifr?url=http://hosting.gmodules.com/ig/gadgets/file/100080069921643878012/facebook.xml&amp;up_useNewFB_p=1&amp;up_showPopUp2_p=true&amp;synd=open&amp;w=262&amp;h=300&amp;title=&amp;border=%23ffffff%7C3px%2C1px+solid+%23999999&amp;output=js"></script>
+        {% endif %}
 
+        {% if tab_gadget.gadget.type == 'Twitter' %}
+            <script src="//www.gmodules.com/ig/ifr?url=http://gadgets.bashennekam.nl/twitter/gadget.xml&amp;up_items=6&amp;up_lastposition=1&amp;synd=open&amp;w=262&amp;h=300&amp;title=&amp;border=%23ffffff%7C3px%2C1px+solid+%23999999&amp;output=js"></script>
+        {% endif %}
+
+        {% if tab_gadget.gadget.type == 'Myspace' %}
+            <script src="//www.gmodules.com/ig/ifr?url=http://hosting.gmodules.com/ig/gadgets/file/109411589656607778385/iFrame.xml&amp;up_iFrameAddr=http%3A%2F%2Fm.myspace.com&amp;up_newTitle=&amp;up_mainLink=&amp;up_showNav=no&amp;up_scroll=auto&amp;up_refreshTime=0&amp;up_refreshTimeText=&amp;up_frameHeight=200px&amp;up_frameHeightText=300&amp;synd=open&amp;w=262&amp;h=300&amp;title=&amp;border=%23ffffff%7C3px%2C1px+solid+%23999999&amp;output=js"></script>
+        {% endif %}
+
+        {% if tab_gadget.gadget.type == 'Gmail' %}
+        {% endif %}
+
+        {% if tab_gadget.gadget.type == 'Hotmail' %}
+            <script src="//www.gmodules.com/ig/ifr?url=http://hosting.gmodules.com/ig/gadgets/file/109411589656607778385/iFrame.xml&amp;up_iFrameAddr=http%3A%2F%2Fmail.live.com%2Fm%2F&amp;up_newTitle=&amp;up_mainLink=&amp;up_showNav=no&amp;up_scroll=auto&amp;up_refreshTime=0&amp;up_refreshTimeText=&amp;up_frameHeight=300px&amp;up_frameHeightText=&amp;synd=open&amp;w=262&amp;h=300&amp;title=&amp;border=%23ffffff%7C3px%2C1px+solid+%23999999&amp;output=js"></script>
+        {% endif %}
+
+        {% if tab_gadget.gadget.type == 'YahooMail' %}
+
+        {% endif %}
+
+        {% if tab_gadget.gadget.type == 'CNN' %}
+            <script src="//www.gmodules.com/ig/ifr?url=http://totalgta.net/igoogle/tools/rss/cnn/feed1.xml&amp;up_show_date=1&amp;up_show_summ=0&amp;up_num_entries=10&amp;synd=open&amp;w=262&amp;h=300&amp;title=&amp;border=%23ffffff%7C3px%2C1px+solid+%23999999&amp;output=js"></script>
+        {% endif %}
+
+        {% if tab_gadget.gadget.type == 'BBC' %}
+            <script src="//www.gmodules.com/ig/ifr?url=http://shazingo.com/lig/lg/142002.xml&amp;up_extrafeed=http%3A%2F%2Fnewsrss.bbc.co.uk%2Frss%2Fnewsonline_uk_edition%2Flatest_published_stories%2Frss.xml&amp;up_extratitle=Health&amp;up_subject=BBC%20News&amp;up_entries=3&amp;up_summaries=100&amp;up_selectedTab=&amp;synd=open&amp;w=262&amp;h=300&amp;title=&amp;border=%23ffffff%7C3px%2C1px+solid+%23999999&amp;output=js"></script>
+        {% endif %}
     </div>
 </li>

@@ -11,7 +11,6 @@
     <link href="/static/css/inettuts.js.css" rel="stylesheet">
 </head>
 <body>
-
 <div id="columns">
 
     <ul id="column1" class="column">
@@ -41,6 +40,32 @@
 
 <script type="text/javascript">
 $('#aaaa').attr('src', 'http://www.myspace.com')
+
+$('li.widget').find('.edit-box').find('input').change(function() {
+    var tab_gadget_id = $(this).parent().parent().parent().prev().find('input').val();
+    var new_name = $(this).val()
+    $.ajax({
+        type:"GET",
+        async:false,
+        url:"/tab_gadget/ajax_change_title/" + tab_gadget_id + "/" + new_name + "/",
+        dataType:"json",
+        success: function(data) {
+        }
+    });
+})
+
+$('li.widget').find('.edit-box').find('ul.colors').find('li').click(function() {
+    var tab_gadget_id = $(this).parent().parent().parent().prev().find('input').val();
+    var new_color = $(this).attr('class')
+    $.ajax({
+        type:"GET",
+        async:false,
+        url:"/tab_gadget/ajax_change_color/" + tab_gadget_id + "/" + new_color + "/",
+        dataType:"json",
+        success: function(data) {
+        }
+    });
+})
 
 </script>
 

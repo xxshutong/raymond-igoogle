@@ -24,7 +24,10 @@
                     {% for gadget in gadgets %}
                         <li class="li_badget">
                             {% if gadget.type == 'Facebook' %}
-                                <img src="../static/img/badget/facebook.png" alt="Facebook">
+                                <img src="../static/img/badget/facebook.png"  style="width: 128px; height: 128px"  alt="Facebook">
+                            {% endif %}
+                            {% if gadget.type == 'Twitter' %}
+                                <img src="../static/img/badget/twitter.png"  style="width: 128px; height: 128px"  alt="Twitter">
                             {% endif %}
                             <span>{{ gadget.name }}</span>
                             <a onclick="add_gadget({{ gadget.id }})" data-toggle="modal" class="btn btn-primary" style="margin-top: 15px; display: none;">Add To Tab</a>
