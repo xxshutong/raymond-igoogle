@@ -28,9 +28,14 @@ def dashboard(request):
     """
     Nav to dashboard page
     """
+    latest_tabs = models.Tab.objects.filter().order_by('-created_at')[:20]
+    url_pre = 'http://' + request.META["HTTP_HOST"] + '/tab/show_detail/'
     return render_to_response(DASHBOARD_PAGE, {},
         RequestContext(request,
                 {
+
+                'latest_tabs': latest_tabs,
+                'url_pre': url_pre
             }),
     )
 
@@ -76,11 +81,15 @@ def login(request):
 def go_member_dashboard(request):
     tab_form = TabForm()
     tab_list = Tab.objects.filter(user_profile=request.user).order_by('order')
+    latest_tabs = models.Tab.objects.filter().order_by('-created_at')[:20]
+    url_pre = 'http://' + request.META["HTTP_HOST"] + '/tab/show_detail/'
     return render_to_response(MEMBER_DASHBOARD_PAGE, {},
         RequestContext(request,
                 {
                 'tab_form': tab_form,
-                'tab_list': tab_list
+                'tab_list': tab_list,
+                'latest_tabs': latest_tabs,
+                'url_pre': url_pre
             }),
     )
 
@@ -157,7 +166,10 @@ def show_detail(request, tab_id=None):
     Show tab gadget list
     """
     tab_form = TabForm()
-    tab_list = Tab.objects.filter(user_profile=request.user).order_by('order')
+    if request.user.is_active:
+        tab_list = Tab.objects.filter(user_profile=request.user).order_by('order')
+    else:
+        tab_list = ''
     domain_prefix = 'http://' + request.META["HTTP_HOST"]
     return render_to_response(MEMBER_GADGET_PAGE, {},
         RequestContext(request,

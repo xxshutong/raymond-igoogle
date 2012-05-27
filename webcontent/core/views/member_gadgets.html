@@ -10,7 +10,9 @@
 </style>
     <div class="row-fluid">
         <div class="span3">
-            {% include "member_left_side.html" %}
+            {% if user.is_active %}
+                {% include "member_left_side.html" %}
+            {% endif %}
         </div><!--/span-->
         <iframe style="margin-left: 5px; border: 0px;" width="890px" height="800px" src="{{ domain_prefix }}/tab/show_detail_frame/{{ tab_id }}/">
 

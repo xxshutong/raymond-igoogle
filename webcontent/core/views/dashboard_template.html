@@ -1,0 +1,16 @@
+
+    {% load humanize %}
+    <div class="div_border form_normal_padding" align="center">
+        <h2 align="center" style="margin-top: 10px;">New User Tabs</h2>
+        <ul class="dashboard" style="list-style: none">
+            {% for tab in latest_tabs %}
+            <hr style=" margin: 3px; border-style: solid">
+            <li style="margin-top: 5px;">
+                {{ tab.created_at  }}&nbsp;-&nbsp;
+                {{ tab.user_profile.username }}&nbsp;-&nbsp;
+                {{ tab.name }}&nbsp;-&nbsp;
+                <a href="{{url_pre}}{{tab.id}}/" class="title">{{url_pre}}{{tab.id}}/</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
