@@ -128,23 +128,23 @@ def search_gadget(request):
             }),
     )
 
-@transaction.commit_on_success
 def add_gadget(request):
     '''
     Add gadget to selected tab
     '''
 #    tab_id = request.POST.get('gadget_tab')
-    tag_gadget_form = TabGadgetsRForm(request.POST)
-    if tag_gadget_form.is_valid():
-        tgr = TabGadgetsR()
-        tgr.gadget_id = request.POST['gadget']
-        tgr.tab_id = request.POST['tab']
-        tgr.title = request.POST['title']
-        column = random.randint(1, 3)
-        row = models.TabGadgetsR.objects.filter(tab=tgr.tab_id).aggregate(Max('row'))
-        tgr.column = column
-        tgr.row = row.get('row__max') + 1 if row.get('row__max') else 1
-        tgr.save()
+#    tag_gadget_form = TabGadgetsRForm(request.POST)
+#    if tag_gadget_form.is_valid():
+    tgr = TabGadgetsR()
+    tgr.gadget_id = request.POST['gadget']
+    tgr.tab_id = request.POST['tab']
+    tgr.title = request.POST['title']
+    tgr.rss_url = request.POST['rss_url']
+    column = random.randint(1, 3)
+    row = models.TabGadgetsR.objects.filter(tab=tgr.tab_id).aggregate(Max('row'))
+    tgr.column = column
+    tgr.row = row.get('row__max') + 1 if row.get('row__max') else 1
+    tgr.save()
     return go_member_dashboard(request)
 
 def ajax_check_name(request):

@@ -24,7 +24,6 @@
         {% endif %}
 
         {% if tab_gadget.gadget.type == 'YahooMail' %}
-
         {% endif %}
 
         {% if tab_gadget.gadget.type == 'CNN' %}
@@ -33,6 +32,12 @@
 
         {% if tab_gadget.gadget.type == 'BBC' %}
             <script src="//www.gmodules.com/ig/ifr?url=http://shazingo.com/lig/lg/142002.xml&amp;up_extrafeed=http%3A%2F%2Fnewsrss.bbc.co.uk%2Frss%2Fnewsonline_uk_edition%2Flatest_published_stories%2Frss.xml&amp;up_extratitle=Health&amp;up_subject=BBC%20News&amp;up_entries=3&amp;up_summaries=100&amp;up_selectedTab=&amp;synd=open&amp;w=262&amp;h=300&amp;title=&amp;border=%23ffffff%7C3px%2C1px+solid+%23999999&amp;output=js"></script>
-        {% endif %}
+        {%  endif %}
+
+        {% if tab_gadget.gadget.type == 'RSS' %}
+            <script src="//www.gmodules.com/ig/ifr?url=http://alsys-eg.co.jp/rss_feed_reader.xml&amp;up_feed_url={{tab_gadget.encoded_rss_url}}&amp;synd=open&amp;w=262&amp;h=300&amp;border=%23ffffff%7C3px%2C1px+solid+%23999999&amp;output=js"></script>
+        {%  endif %}
+
+        <!-- youtube , rss-->
     </div>
 </li>

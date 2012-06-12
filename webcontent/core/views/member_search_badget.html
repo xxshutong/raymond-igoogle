@@ -30,7 +30,7 @@
                                 <img src="../static/img/badget/twitter.png"  style="width: 128px; height: 128px"  alt="Twitter">
                             {% endif %}
                             <span>{{ gadget.name }}</span>
-                            <a onclick="add_gadget({{ gadget.id }})" data-toggle="modal" class="btn btn-primary" style="margin-top: 15px; display: none;">Add To Tab</a>
+                            <a onclick="add_gadget({{ gadget.id }}, '{{gadget.type}}')" data-toggle="modal" class="btn btn-primary" style="margin-top: 15px; display: none;">Add To Tab</a>
                         </li>
                     {% endfor %}
                 </ul>
@@ -70,6 +70,12 @@
                         {{ tag_gadget_form.title.errors }}
                     </div>
                 </div>
+                <div id="rss_area" class="control-group" align="center">
+                    <div class="middle_form_width" style="text-align:  left">
+                        {{ tag_gadget_form.rss_url }}
+                        {{ tag_gadget_form.rss_url.errors }}
+                    </div>
+                </div>
                 <div class="control-group" align="center">
                     <div class="middle_form_width" style="text-align:  left">
                         <a onclick="check_add_tab()" class="btn btn-primary">Add</a>
@@ -91,7 +97,12 @@
         $(this).find('a').show();
     })
 
-    function add_gadget(gadget_id) {
+    function add_gadget(gadget_id, gadget_name) {
+        if(gadget_name == 'RSS') {
+            $("#rss_area").show();
+        } else {
+            $("#rss_area").hide();
+        }
         $('#id_gadget').val(gadget_id)
         $('#add_gadget').modal({
             keyboard: false
@@ -102,7 +113,7 @@
         $('#id_add_gadget_error').empty();
         var name = $('#id_tab').val()
         if (name == '') {
-            $('#id_add_gadget_error').append("Please select a tab for delete.");
+            $('#id_add_gadget_error').append("Please select a tab for add.");
             return;
         }
         var title = $('#id_title').val()
@@ -110,7 +121,27 @@
             $('#id_add_gadget_error').append("Gadget title is required.");
             return;
         }
+        var rss_url = $('#id_rss_url').val()
+        if (rss_url == '') {
+            $('#id_add_gadget_error').append("RSS url is required.");
+            return;
+        }
+        if (!IsURL(rss_url)) {
+            $('#id_add_gadget_error').append("RSS url is invalid.");
+            return;
+        }
         $('#add_gadget_form').submit();
+    }
+
+    function IsURL(str_url){
+        var strRegex = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
+        var re=new RegExp(strRegex);
+        //re.test()
+        if (re.test(str_url)){
+            return (true);
+        }else{
+            return (false);
+        }
     }
 
 </script>

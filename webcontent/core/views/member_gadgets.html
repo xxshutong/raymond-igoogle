@@ -14,7 +14,7 @@
                 {% include "member_left_side.html" %}
             {% endif %}
         </div><!--/span-->
-        <iframe style="margin-left: 5px; border: 0px;" width="890px" height="800px" src="{{ domain_prefix }}/tab/show_detail_frame/{{ tab_id }}/">
+        <iframe id="iframe_embed" style="margin-left: 5px; border: 0px;" width="890px" height="800px" onload="this.height=iframe_embed.document.body.scrollHeight" src="{{ domain_prefix }}/tab/show_detail_frame/{{ tab_id }}/">
 
         </iframe>
     </div>

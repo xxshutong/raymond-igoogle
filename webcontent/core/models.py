@@ -1,3 +1,4 @@
+import urllib
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.fields.related import OneToOneField
@@ -13,7 +14,9 @@ GADGETS_TYPE = (
     ('Hotmail', 'Hotmail'),
     ('YahooMail', 'Yahoo mail'),
     ('CNN', 'CNN'),
-    ('BBC', 'BBC')
+    ('BBC', 'BBC'),
+    ('Youtube', 'Youtube'),
+    ('RSS', 'RSS'),
 )
 
 LIBRARY_TYPE = (
@@ -73,4 +76,9 @@ class TabGadgetsR(BaseModel):
     width = models.IntegerField(null=True, blank=True)
     height = models.IntegerField(null=True, blank=True)
     color_class = models.CharField(max_length=30, default='color-green')
+    rss_url = models.URLField(max_length=100, blank=True, null=True)
+
+    def encoded_rss_url(self):
+        e = urllib.urlencode({'name':self.rss_url})
+        return e[5:]
 
