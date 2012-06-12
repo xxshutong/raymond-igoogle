@@ -23,6 +23,21 @@
                 <ul>
                     {% for gadget in gadgets %}
                         <li class="li_badget">
+                            {% if gadget.type == 'Youtube' %}
+                                <img src="../static/img/badget/youbute.png"  style="width: 128px; height: 128px"  alt="Youbute">
+                            {% endif %}
+                            {% if gadget.type == 'Hotmail' %}
+                                <img src="../static/img/badget/hotmail.png"  style="width: 128px; height: 128px"  alt="Hotmail">
+                            {% endif %}
+                            {% if gadget.type == 'CNN' %}
+                                <img src="../static/img/badget/cnn.jpg"  style="width: 128px; height: 128px"  alt="CNN">
+                            {% endif %}
+                            {% if gadget.type == 'BBC' %}
+                                <img src="../static/img/badget/bbc.jpeg"  style="width: 128px; height: 128px"  alt="BBC">
+                            {% endif %}
+                            {% if gadget.type == 'RSS' %}
+                                <img src="../static/img/badget/rss.png"  style="width: 128px; height: 128px"  alt="RSS">
+                            {% endif %}
                             {% if gadget.type == 'Facebook' %}
                                 <img src="../static/img/badget/facebook.png"  style="width: 128px; height: 128px"  alt="Facebook">
                             {% endif %}
