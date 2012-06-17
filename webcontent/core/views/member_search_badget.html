@@ -17,6 +17,7 @@
                 <input type="text" style="margin-bottom: 0px"/>
                 &nbsp;
                 <a class="btn btn-primary">Search</a>
+                <input type="hidden" id="current_gadget_type"/>
             </div>
 
             <div>
@@ -113,6 +114,7 @@
     })
 
     function add_gadget(gadget_id, gadget_name) {
+        $('#current_gadget_type').val(gadget_name);
         if(gadget_name == 'RSS') {
             $("#rss_area").show();
         } else {
@@ -137,14 +139,18 @@
             return;
         }
         var rss_url = $('#id_rss_url').val()
-        if (rss_url == '') {
-            $('#id_add_gadget_error').append("RSS url is required.");
-            return;
+        var gadget_name = $('#current_gadget_type').val();
+        if (gadget_name == 'RSS') {
+            if (rss_url == '') {
+                $('#id_add_gadget_error').append("RSS url is required.");
+                return;
+            }
+            if (!IsURL(rss_url)) {
+                $('#id_add_gadget_error').append("RSS url is invalid.");
+                return;
+            }
         }
-        if (!IsURL(rss_url)) {
-            $('#id_add_gadget_error').append("RSS url is invalid.");
-            return;
-        }
+
         $('#add_gadget_form').submit();
     }
 
