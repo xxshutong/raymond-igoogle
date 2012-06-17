@@ -151,9 +151,6 @@ AUTH_PROFILE_MODULE = 'core.UserProfile'
 # Register or change email link expire time
 EMAIL_EXPIRE_TIME = 14
 
-if DEBUG:
-    INSTALLED_APPS += ('django_hudson',)
-
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error.
