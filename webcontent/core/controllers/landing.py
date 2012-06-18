@@ -1,7 +1,7 @@
 import random
 from django.contrib.auth import authenticate
 from django.db import transaction
-from django.db.models.aggregates import Max
+from django.db.models.aggregates import Max, Count
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
 from django.template.context import RequestContext
@@ -140,8 +140,16 @@ def add_gadget(request):
     tgr.tab_id = request.POST['tab']
     tgr.title = request.POST['title']
     tgr.rss_url = request.POST['rss_url']
-    column = random.randint(1, 3)
-    row = models.TabGadgetsR.objects.filter(tab=tgr.tab_id).aggregate(Max('row'))
+    existing_rs = models.TabGadgetsR.objects.filter(tab=tgr.tab_id).values('column').annotate(row_count = Count('id')).order_by('row_count')
+    if len(existing_rs) == 3:
+        column = existing_rs[0].get('column')
+    elif len(existing_rs) == 2:
+        column = 3
+    elif len(existing_rs) == 1:
+        column = 2
+    else:
+        column = 1
+    row = models.TabGadgetsR.objects.filter(tab=tgr.tab_id, column=column).aggregate(Max('row'))
     tgr.column = column
     tgr.row = row.get('row__max') + 1 if row.get('row__max') else 1
     tgr.save()
