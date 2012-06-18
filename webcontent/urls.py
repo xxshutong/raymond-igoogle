@@ -19,6 +19,7 @@ urlpatterns = patterns('webcontent.core.controllers.landing',
     url(r'^add_gadget/$', 'add_gadget', name='add_gadget'),
     url(r'^tab_gadget/ajax_change_title/(?P<tab_gadget_id>\w+)/(?P<new_title>.+)/$', 'ajax_change_title', name='ajax_change_title'),
     url(r'^tab_gadget/ajax_change_color/(?P<tab_gadget_id>\w+)/(?P<new_color>.+)/$', 'ajax_change_color', name='ajax_change_color'),
+    url(r'^tab_gadget/ajax_remove_gadget/(?P<tab_gadget_id>\w+)/$', 'ajax_remove_gadget', name='ajax_remove_gadget'),
 
     # show gadget list
     url(r'^tab/show_detail_frame/(?P<tab_id>\w+)/$', 'show_detail_frame', name='show_detail_frame'),

@@ -56,11 +56,23 @@ var iNettuts = {
                     e.stopPropagation();
                 }).click(function () {
                         if(confirm('This widget will be removed, ok?')) {
+                            // Remove in DB
+                            var tab_gadget_id = $(this).parent().find('input').val();
+                            $.ajax({
+                                type:"GET",
+                                async:false,
+                                url:"/tab_gadget/ajax_remove_gadget/" + tab_gadget_id + "/",
+                                dataType:"json",
+                                success: function(data) {
+                                }
+                            });
+
                             $(this).parents(settings.widgetSelector).animate({
                                 opacity: 0
                             },function () {
                                 $(this).wrap('<div/>').parent().slideUp(function () {
                                     $(this).remove();
+
                                 });
                             });
                         }

@@ -214,6 +214,12 @@ def ajax_change_color(request, tab_gadget_id=None, new_color=None):
     tab_gadget.save()
     return HttpResponse('', 'application/json')
 
+def ajax_remove_gadget(request, tab_gadget_id=None):
+    tab_gadget = models.TabGadgetsR.objects.get(pk=tab_gadget_id)
+    tab_gadget.delete()
+    return HttpResponse('', 'application/json')
+
+
 def logout(request):
     """
     Logs user out.
