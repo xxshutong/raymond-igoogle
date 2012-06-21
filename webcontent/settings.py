@@ -1,5 +1,6 @@
 import os
 # Django settings for backend project.
+import pgurl
 
 
 PROJECT_DIR = os.getcwd()
