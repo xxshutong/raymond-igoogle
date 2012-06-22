@@ -14,7 +14,9 @@ class Migration(SchemaMigration):
             ('updated_at', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
             ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True, null=True, blank=True)),
-            ('type', self.gf('django.db.models.fields.IntegerField')(default=0)),
+            ('full_name', self.gf('django.db.models.fields.CharField')(max_length=50)),
+            ('birthday', self.gf('django.db.models.fields.DateField')()),
+            ('ic_num', self.gf('django.db.models.fields.CharField')(max_length=50)),
         ))
         db.send_create_signal('core', ['UserProfile'])
 
@@ -27,17 +29,6 @@ class Migration(SchemaMigration):
             ('type', self.gf('django.db.models.fields.CharField')(max_length=50)),
         ))
         db.send_create_signal('core', ['Gadgets'])
-
-        # Adding model 'GadgetsDetail'
-        db.create_table('core_gadgetsdetail', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('updated_at', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-            ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('gadget', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Gadgets'])),
-            ('username', self.gf('django.db.models.fields.CharField')(max_length=50)),
-            ('password', self.gf('django.db.models.fields.CharField')(max_length=100)),
-        ))
-        db.send_create_signal('core', ['GadgetsDetail'])
 
         # Adding model 'Library'
         db.create_table('core_library', (
@@ -56,7 +47,7 @@ class Migration(SchemaMigration):
             ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('user_profile', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=30)),
-            ('order', self.gf('django.db.models.fields.IntegerField')()),
+            ('order', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
         ))
         db.send_create_signal('core', ['Tab'])
 
@@ -66,9 +57,14 @@ class Migration(SchemaMigration):
             ('updated_at', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
             ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('tab', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Tab'])),
-            ('gadgets_detail', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.GadgetsDetail'])),
+            ('gadget', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Gadgets'])),
             ('column', self.gf('django.db.models.fields.IntegerField')()),
             ('row', self.gf('django.db.models.fields.IntegerField')()),
+            ('title', self.gf('django.db.models.fields.CharField')(max_length=20, null=True, blank=True)),
+            ('width', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
+            ('height', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
+            ('color_class', self.gf('django.db.models.fields.CharField')(default='color-green', max_length=30)),
+            ('rss_url', self.gf('django.db.models.fields.URLField')(max_length=100, null=True, blank=True)),
         ))
         db.send_create_signal('core', ['TabGadgetsR'])
 
@@ -80,9 +76,6 @@ class Migration(SchemaMigration):
 
         # Deleting model 'Gadgets'
         db.delete_table('core_gadgets')
-
-        # Deleting model 'GadgetsDetail'
-        db.delete_table('core_gadgetsdetail')
 
         # Deleting model 'Library'
         db.delete_table('core_library')
@@ -139,15 +132,6 @@ class Migration(SchemaMigration):
             'type': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
             'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
         },
-        'core.gadgetsdetail': {
-            'Meta': {'object_name': 'GadgetsDetail'},
-            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'gadget': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core.Gadgets']"}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'password': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'username': ('django.db.models.fields.CharField', [], {'max_length': '50'})
-        },
         'core.library': {
             'Meta': {'object_name': 'Library'},
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
@@ -161,25 +145,32 @@ class Migration(SchemaMigration):
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '30'}),
-            'order': ('django.db.models.fields.IntegerField', [], {}),
+            'order': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'user_profile': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"})
         },
         'core.tabgadgetsr': {
             'Meta': {'object_name': 'TabGadgetsR'},
+            'color_class': ('django.db.models.fields.CharField', [], {'default': "'color-green'", 'max_length': '30'}),
             'column': ('django.db.models.fields.IntegerField', [], {}),
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'gadgets_detail': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core.GadgetsDetail']"}),
+            'gadget': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core.Gadgets']"}),
+            'height': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'row': ('django.db.models.fields.IntegerField', [], {}),
+            'rss_url': ('django.db.models.fields.URLField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'tab': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core.Tab']"}),
-            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '20', 'null': 'True', 'blank': 'True'}),
+            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'width': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'})
         },
         'core.userprofile': {
             'Meta': {'object_name': 'UserProfile'},
+            'birthday': ('django.db.models.fields.DateField', [], {}),
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'full_name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'ic_num': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'type': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['auth.User']", 'unique': 'True', 'null': 'True', 'blank': 'True'})
         }

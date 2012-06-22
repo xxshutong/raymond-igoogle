@@ -9,10 +9,7 @@ from django.db.models.fields.related import OneToOneField
 GADGETS_TYPE = (
     ('Facebook', 'Facebook'),
     ('Twitter', 'Twitter'),
-    ('Myspace', 'Myspace'),
-    ('Gmail', 'Gmail'),
     ('Hotmail', 'Hotmail'),
-    ('YahooMail', 'Yahoo mail'),
     ('CNN', 'CNN'),
     ('BBC', 'BBC'),
     ('Youtube', 'Youtube'),
