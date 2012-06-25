@@ -55,14 +55,14 @@ class RegisterUserForm(ModelForm):
             raise forms.ValidationError(u"Two of the input password is not consistent.")
         return password2
 
-    def clean_tos(self):
-        """
-        Validate that the user accepted the Terms of Service.
-
-        """
-        if self.cleaned_data.get('tos', False):
-            return self.cleaned_data['tos']
-        raise forms.ValidationError(u'You must agree before continue.')
+#    def clean_tos(self):
+#        """
+#        Validate that the user accepted the Terms of Service.
+#
+#        """
+#        if self.cleaned_data.get('tos', False):
+#            return self.cleaned_data['tos']
+#        raise forms.ValidationError(u'You must agree before continue.')
 
     @transaction.commit_on_success
     def save(self, **new_data):
