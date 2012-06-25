@@ -41,6 +41,9 @@ class UserProfile(BaseModel):
         return self.full_name
 
 class Gadgets(BaseModel):
+    class Meta:
+        verbose_name = "Gadget"
+        verbose_name_plural = "Gadgets"
     """
     Gadgets Management
     """

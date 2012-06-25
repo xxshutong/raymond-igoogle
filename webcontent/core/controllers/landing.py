@@ -59,7 +59,8 @@ def login(request):
                     if not user.is_staff and not user.is_superuser:
                         djlogin(request, user)
                         request.session.set_expiry(settings.SESSION_COOKIE_AGE)
-                        return go_member_dashboard(request)
+#                        return go_member_dashboard(request)
+                        return search_gadget(request)
                     else:
                         errors = login_error_message
                 else:

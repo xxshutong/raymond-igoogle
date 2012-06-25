@@ -12,7 +12,7 @@
                         <span class="icon-bar"></span>
                     </a>
                     {% if user.is_active %}
-                        <a class="brand" href="{% url go_member_dashboard %}">UKM</a>
+                        <a class="brand" href="{% url search_gadget %}">UKM</a>
                     {% endif %}
                     {% if not user.is_active %}
                         <a class="brand" href="{% url dashboard %}">UKM</a>
