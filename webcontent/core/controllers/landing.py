@@ -144,17 +144,23 @@ def add_gadget(request):
     existing_rs = models.TabGadgetsR.objects.filter(tab=tgr.tab_id).values('column').annotate(row_count = Count('id')).order_by('row_count')
     if len(existing_rs) == 3:
         column = existing_rs[0].get('column')
-    elif len(existing_rs) == 2:
-        column = 3
-    elif len(existing_rs) == 1:
-        column = 2
+    elif len(existing_rs) == 2 or len(existing_rs) == 1:
+        existing_columns = []
+        for rs in existing_rs:
+            existing_columns.append(rs['column'])
+        columns = [1L,2L,3L]
+        for col in columns:
+            if col not in existing_columns:
+                column = col
+                break
     else:
         column = 1
     row = models.TabGadgetsR.objects.filter(tab=tgr.tab_id, column=column).aggregate(Max('row'))
     tgr.column = column
     tgr.row = row.get('row__max') + 1 if row.get('row__max') else 1
     tgr.save()
-    return go_member_dashboard(request)
+#    return go_member_dashboard(request)
+    return show_detail(request, tab_id=tgr.tab_id)
 
 def ajax_check_name(request):
     '''
