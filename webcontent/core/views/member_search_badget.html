@@ -73,7 +73,7 @@
                 <div class="control-group" align="center">
                     <div class="middle_form_width" style="text-align:  left">
                         <select id="id_tab" name="tab">
-                            <option label="Please Select" value="" />
+                            <option label="Please Select a Tab" value="" />
                             {% for tab in tab_list %}
                             <option label="{{ tab.name }}" value="{{ tab.id }}" />
                             {% endfor %}
@@ -88,8 +88,12 @@
                 </div>
                 <div id="rss_area" class="control-group" align="center">
                     <div class="middle_form_width" style="text-align:  left">
-                        {{ tag_gadget_form.rss_url }}
-                        {{ tag_gadget_form.rss_url.errors }}
+                        <select id="id_rss_url" name="rss_url">
+                            <option value="" label="Please Select a RSS Feed"/>
+                            <option value="http://blog.outer-court.com/rss.xml" label="Google RSS"/>
+                            <option value="http://news.yahoo.com/rss/;_ylt=AlI92dJVKBsZJxliL9Ua6l65scB_;_ylu=X3oDMTFnMnR2bGMwBG1pdANSU1MgU2l0ZUluZGV4IFVTBHBvcwMzBHNlYwNNZWRpYVJTU0VkaXRvcmlhbA--;_ylg=X3oDMTFlamZvM2ZlBGludGwDdXMEbGFuZwNlbi11cwRwc3RhaWQDBHBzdGNhdAMEcHQDc2VjdGlvbnM-;_ylv=3" label="Yahoo RSS"/>
+                            <option value="http://news.163.com/special/00011K6L/rss_gn.xml" label="Chinese RSS"/>
+                        </select>
                     </div>
                 </div>
                 <div class="control-group" align="center">
@@ -139,6 +143,7 @@
             return;
         }
         var rss_url = $('#id_rss_url').val()
+        alert(rss_url)
         var gadget_name = $('#current_gadget_type').val();
         if (gadget_name == 'RSS') {
             if (rss_url == '') {

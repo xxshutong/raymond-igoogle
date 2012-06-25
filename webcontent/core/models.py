@@ -73,7 +73,7 @@ class TabGadgetsR(BaseModel):
     width = models.IntegerField(null=True, blank=True)
     height = models.IntegerField(null=True, blank=True)
     color_class = models.CharField(max_length=30, default='color-green')
-    rss_url = models.URLField(max_length=100, blank=True, null=True)
+    rss_url = models.URLField(max_length=1000, blank=True, null=True)
 
     def encoded_rss_url(self):
         e = urllib.urlencode({'name':self.rss_url})
