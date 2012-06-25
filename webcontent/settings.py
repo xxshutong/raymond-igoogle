@@ -17,15 +17,15 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASES = pgurl.get_db_settings()
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.mysql',
-#        'OPTIONS': {
-#            'read_default_file': PROJECT_DIR + "/webcontent/my.cnf",
-#            },
-#        }
-#}
+#DATABASES = pgurl.get_db_settings()
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': PROJECT_DIR + "/webcontent/my.cnf",
+            },
+        }
+}
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
