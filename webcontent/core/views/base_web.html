@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}UKM{% endblock %}
+{% block title %}WHIP{% endblock %}
 
 {% block navbar%}
         <div class="navbar navbar-fixed-top">
@@ -12,10 +12,10 @@
                         <span class="icon-bar"></span>
                     </a>
                     {% if user.is_active %}
-                        <a class="brand" href="{% url search_gadget %}">UKM</a>
+                        <a class="brand" href="{% url search_gadget %}">WHIP</a>
                     {% endif %}
                     {% if not user.is_active %}
-                        <a class="brand" href="{% url dashboard %}">UKM</a>
+                        <a class="brand" href="{% url dashboard %}">WHIP</a>
                     {% endif %}
                     <div class="nav-collapse">
                         <ul class="nav">
